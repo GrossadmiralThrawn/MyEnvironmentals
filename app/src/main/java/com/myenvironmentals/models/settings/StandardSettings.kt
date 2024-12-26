@@ -8,6 +8,9 @@ class StandardSettings: ISettings {
     private var darkMode   = false
     private var systemMode = true
 
+
+
+
     override fun switchToLightMode() {
         lightMode  = true
         darkMode   = false
@@ -44,5 +47,12 @@ class StandardSettings: ISettings {
 
 
         return 'd'
+    }
+
+
+
+
+    override fun switchNotification(enabled: Boolean) {
+        TODO("Not yet implemented")
     }
 }

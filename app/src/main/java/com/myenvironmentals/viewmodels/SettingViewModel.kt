@@ -9,12 +9,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 
+
+
 class SettingViewModel(): ViewModel() {
     private val standardSettings      = StandardSettings()
     private val _notificationsEnabled = MutableStateFlow(true)
     val notificationsEnabled: StateFlow<Boolean> = _notificationsEnabled
     private val _darkModeEnabled = MutableStateFlow(false)
     val darkModeEnabled: StateFlow<Boolean> = _darkModeEnabled
+    private val _systemModeEnabled = MutableStateFlow(false)
+    val systemModeEnabled: StateFlow<Boolean> = _systemModeEnabled
 
 
 
@@ -31,6 +35,9 @@ class SettingViewModel(): ViewModel() {
         _notificationsEnabled.value = enabled
     }
 
+
+
+
     fun toggleDarkModeEnabled(enabled: Boolean) {
         _darkModeEnabled.value = enabled
 
@@ -43,5 +50,13 @@ class SettingViewModel(): ViewModel() {
         {
             standardSettings.switchToLightMode()
         }
+    }
+
+
+
+
+    fun systemModeEnabled(enabled: Boolean)
+    {
+        _systemModeEnabled.value = enabled
     }
 }

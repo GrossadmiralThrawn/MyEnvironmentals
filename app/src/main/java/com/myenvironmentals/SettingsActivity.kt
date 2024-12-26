@@ -5,6 +5,7 @@ package com.myenvironmentals
 
 
 import android.os.Bundle
+import android.widget.CheckBox
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -66,27 +68,49 @@ fun TopAppBar()
 
 
 @Composable
-fun SettingToggle(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+fun SettingToggle(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit, enabled: Boolean) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = title, style = MaterialTheme.typography.bodyMedium)
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
+        Switch(checked = checked, onCheckedChange = onCheckedChange, enabled = enabled)
     }
 }
 
 
 
 
-/**
+
+
+
+
+
+@Composable
+fun Checkbox(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = title, style = MaterialTheme.typography.bodyMedium)
+        Checkbox(checked = checked, onCheckedChange = onCheckedChange)
+    }
+}
+
+
+
+    /**
  * @sample Function, which takes care of the body/ anything which isn't the TopBar
  */
 @Composable
 fun SettingsActivityBody(settingViewModel: SettingViewModel) {
     val notificationsEnabled by settingViewModel.notificationsEnabled.collectAsState()
     val darkModeEnabled by settingViewModel.darkModeEnabled.collectAsState()
+    val systemModeEnabled by settingViewModel.systemModeEnabled.collectAsState()
+
+
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -101,15 +125,22 @@ fun SettingsActivityBody(settingViewModel: SettingViewModel) {
         SettingToggle(
             title = "Enable Notifications",
             checked = notificationsEnabled,
-            onCheckedChange = { settingViewModel.toggleNotificationsEnabled(it) }
+            onCheckedChange = { settingViewModel.toggleNotificationsEnabled(it)},
+            true
         )
 
         // Dark Mode Toggle
         SettingToggle(
             title = "Enable Dark Mode",
             checked = darkModeEnabled,
-            onCheckedChange = { settingViewModel.toggleDarkModeEnabled(it) }
+            onCheckedChange = { settingViewModel.toggleDarkModeEnabled(it) },
+            enabled = !systemModeEnabled
+
         )
+
+        Checkbox(title = "System Mode",
+            checked = systemModeEnabled,
+            onCheckedChange = { settingViewModel.systemModeEnabled(it) } )
     }
 }
 

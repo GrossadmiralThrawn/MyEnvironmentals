@@ -5,4 +5,5 @@ interface ISettings {
     fun switchToDarkMode()
     fun switchToSystemMode()
     fun getColorMode(): Char //A function which should return l for light mode d for dark mode and s for system mode minimum.
+    fun switchNotification(enabled: Boolean)
 }
