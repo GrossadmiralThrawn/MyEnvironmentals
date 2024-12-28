@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -15,12 +16,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.myenvironmentals.ui.theme.BodyDark
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
+import com.myenvironmentals.ui.theme.TopBarDark
+import com.myenvironmentals.ui.theme.White
 import com.myenvironmentals.viewmodels.MainActivityViewModel
+
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,11 +76,12 @@ fun MainScreen() {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(BodyDark), // Correct background modifier usage
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Hello, Android!")
+            Text(text = "Hello, Android!", color = White)
         }
     }
 }
@@ -113,7 +120,7 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = colorResource(R.color.top_bar_dark),
+            containerColor = TopBarDark,
             titleContentColor = Color.White,
             actionIconContentColor = Color.White
         )

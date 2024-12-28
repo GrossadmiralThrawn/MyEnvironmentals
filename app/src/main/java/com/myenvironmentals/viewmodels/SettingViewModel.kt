@@ -11,6 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.myenvironmentals.models.settings.StandardSettings
+import com.myenvironmentals.ui.theme.BodyDark
+import com.myenvironmentals.ui.theme.BodyLight
 import com.myenvironmentals.ui.theme.TopBarDark
 import com.myenvironmentals.ui.theme.TopBarLight
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -106,6 +108,24 @@ class SettingViewModel(context: Context): ViewModel() {
             systemModeEnabled && !isSystemInDarkTheme() -> TopBarLight //Light mode in system Mode
             darkModeEnabled -> TopBarDark // Explicit Dark Mode
             else -> TopBarLight // Light Mode
+        }
+    }
+
+
+
+
+    @Composable
+    fun getBackgroundColorBody(): Color {
+        val systemModeEnabled by this.systemModeEnabled.collectAsState()
+        val darkModeEnabled by this.darkModeEnabled.collectAsState()
+
+
+
+        return when {
+            systemModeEnabled && isSystemInDarkTheme() -> BodyDark   //Dark mode in System Mode
+            systemModeEnabled && !isSystemInDarkTheme() -> BodyLight //Light mode in system Mode
+            darkModeEnabled -> BodyDark // Explicit Dark Mode
+            else -> BodyLight // Light Mode
         }
     }
 }
