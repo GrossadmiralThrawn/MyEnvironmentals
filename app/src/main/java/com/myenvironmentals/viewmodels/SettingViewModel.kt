@@ -4,8 +4,15 @@ package com.myenvironmentals.viewmodels
 
 
 import android.content.Context
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.myenvironmentals.models.settings.StandardSettings
+import com.myenvironmentals.ui.theme.TopBarDark
+import com.myenvironmentals.ui.theme.TopBarLight
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -80,6 +87,25 @@ class SettingViewModel(context: Context): ViewModel() {
         else
         {
             toggleDarkModeEnabled(darkModeEnabled.value) //Anderenfalls reaktiviert sich der Systemmodus so oft, bis man den Light-/ Darkmode manuell retogglet.
+        }
+    }
+
+
+
+
+    @Composable
+    fun getBackgroundColorTopBar(): Color
+    {
+        val systemModeEnabled by this.systemModeEnabled.collectAsState()
+        val darkModeEnabled by this.darkModeEnabled.collectAsState()
+
+
+
+        return when {
+            systemModeEnabled && isSystemInDarkTheme() -> TopBarDark   //Dark mode in System Mode
+            systemModeEnabled && !isSystemInDarkTheme() -> TopBarLight //Light mode in system Mode
+            darkModeEnabled -> TopBarDark // Explicit Dark Mode
+            else -> TopBarLight // Light Mode
         }
     }
 }

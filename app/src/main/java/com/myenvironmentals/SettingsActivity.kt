@@ -20,10 +20,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,10 +61,17 @@ class SettingsActivity : ComponentActivity() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBar()
-{
-    TopAppBar(title = { Text(stringResource(R.string.app_name) + " ->  " + stringResource(R.string.settings)) })
+fun TopAppBar(settingViewModel: SettingViewModel) {
+    TopAppBar(
+        title = { Text(stringResource(R.string.app_name) + " -> " + stringResource(R.string.settings)) },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = settingViewModel.getBackgroundColorTopBar(),
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White
+        )
+    )
 }
+
 
 
 
@@ -78,12 +87,6 @@ fun SettingToggle(title: String, checked: Boolean, onCheckedChange: (Boolean) ->
         Switch(checked = checked, onCheckedChange = onCheckedChange, enabled = enabled)
     }
 }
-
-
-
-
-
-
 
 
 
@@ -150,7 +153,7 @@ fun SettingsActivityBody(settingViewModel: SettingViewModel) {
 fun SettingsActivityUI(modifier: Modifier, settingViewModel: SettingViewModel)
 {
     Scaffold(
-        topBar = { TopAppBar() },
+        topBar = { TopAppBar(settingViewModel) },
         modifier = Modifier.fillMaxSize()
     )
     {

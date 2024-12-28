@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_environmental">Microcontroller hinzufügen</string>
+    <string name="title_activity_settings">EinstellungenActivity</string>
     <string name="settings">Einstellungen</string>
 </resources>
