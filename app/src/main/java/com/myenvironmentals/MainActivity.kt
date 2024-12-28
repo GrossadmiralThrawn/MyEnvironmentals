@@ -46,11 +46,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-    // ViewModel verwenden
+    //ViewModel verwenden
     val viewModel: MainActivityViewModel = viewModel()
-    // Beobachte das Event, um eine neue Activity zu starten
+    //Beobachte das Event, um eine neue Activity zu starten
     val startNewActivity by viewModel.startNewActivityEvent.collectAsState()
-    // Hole den Context, um die Activity zu starten
+    //Hole den Context, um die Activity zu starten
     val context = LocalContext.current
 
 

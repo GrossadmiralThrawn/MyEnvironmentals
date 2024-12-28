@@ -11,16 +11,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.myenvironmentals.models.settings.StandardSettings
+import com.myenvironmentals.ui.theme.Black
 import com.myenvironmentals.ui.theme.BodyDark
 import com.myenvironmentals.ui.theme.BodyLight
 import com.myenvironmentals.ui.theme.TopBarDark
 import com.myenvironmentals.ui.theme.TopBarLight
+import com.myenvironmentals.ui.theme.White
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 
 
 
+/**
+ * @sample ViewModel for the Settings-Activity. Colors are because of first try of MVVM hard-coded
+ *         but are reachable about the Settings-Interface. Actually no need of dynamical color-request.
+ */
 class SettingViewModel(context: Context): ViewModel() {
     private val standardSettings                         = StandardSettings(context)
     private val _notificationsEnabled                    = MutableStateFlow(true)
@@ -126,6 +132,24 @@ class SettingViewModel(context: Context): ViewModel() {
             systemModeEnabled && !isSystemInDarkTheme() -> BodyLight //Light mode in system Mode
             darkModeEnabled -> BodyDark // Explicit Dark Mode
             else -> BodyLight // Light Mode
+        }
+    }
+
+
+
+
+    @Composable
+    fun getFontColor(): Color{
+        val systemModeEnabled by this.systemModeEnabled.collectAsState()
+        val darkModeEnabled by this.darkModeEnabled.collectAsState()
+
+
+
+        return when {
+            systemModeEnabled && isSystemInDarkTheme() -> White   //Dark mode in System Mode
+            systemModeEnabled && !isSystemInDarkTheme() -> Black //Light mode in system Mode
+            darkModeEnabled -> White // Explicit Dark Mode
+            else -> Black // Light Mode
         }
     }
 }

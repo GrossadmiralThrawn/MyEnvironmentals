@@ -6,7 +6,14 @@ package com.myenvironmentals.models.settings
 import android.content.Context           //Nutzt den Kontext in dem sie erstellt wurde.
 import android.content.SharedPreferences //Shared Preferences sind eine Möglichkeit in
 import android.content.res.Configuration//Android Studio um Daten activityübergreifend
-                                         //zu speichern
+import androidx.compose.ui.graphics.Color
+import com.myenvironmentals.ui.theme.Black
+import com.myenvironmentals.ui.theme.BodyDark
+import com.myenvironmentals.ui.theme.BodyLight
+import com.myenvironmentals.ui.theme.TopBarDark
+import com.myenvironmentals.ui.theme.TopBarLight
+import com.myenvironmentals.ui.theme.White
+
 
 
 
@@ -24,6 +31,11 @@ class StandardSettings (private val context: Context): ISettings {
     init {
         if (colorModeChecked)
         {
+            loadSettings()
+            sharedPreferences.edit().putBoolean("colorModeChecked", true).apply()
+        }
+        else
+        {
             val preSetting = getCurrentSystemColorMode()
 
 
@@ -34,11 +46,8 @@ class StandardSettings (private val context: Context): ISettings {
                 'l' -> switchToLightMode()
             }
 
-        }
-        else
-        {
-            loadSettings()
-            sharedPreferences.edit().putBoolean("colorModeChecked", true).apply()
+
+
             colorModeChecked = true
         }
     }
@@ -51,7 +60,6 @@ class StandardSettings (private val context: Context): ISettings {
         darkMode = sharedPreferences.getBoolean("darkMode", false)
         systemMode = sharedPreferences.getBoolean("systemMode", true)
     }
-
 
 
 
@@ -121,5 +129,19 @@ class StandardSettings (private val context: Context): ISettings {
             Configuration.UI_MODE_NIGHT_NO -> 'l' // Light mode
             else -> 's' // System default or undefined
         }
+    }
+
+
+
+
+    override fun getColorSet(): Array<Color> {
+        return arrayOf(TopBarDark, TopBarLight, BodyDark, BodyLight, Black, White)
+    }
+
+
+
+
+    override fun getNotificationAllowed(): Boolean {
+        TODO("Not yet implemented")
     }
 }
