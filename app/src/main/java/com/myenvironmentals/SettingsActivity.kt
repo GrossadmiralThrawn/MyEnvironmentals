@@ -5,7 +5,6 @@ package com.myenvironmentals
 
 
 import android.os.Bundle
-import android.widget.CheckBox
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,6 +24,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,7 +38,7 @@ class SettingsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val settingViewModel = SettingViewModel()
+        val settingViewModel = SettingViewModel(this)
         setContent {
             MyEnvironmentalsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -101,14 +101,15 @@ fun Checkbox(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit
 
 
 
-    /**
+
+/**
  * @sample Function, which takes care of the body/ anything which isn't the TopBar
  */
 @Composable
 fun SettingsActivityBody(settingViewModel: SettingViewModel) {
     val notificationsEnabled by settingViewModel.notificationsEnabled.collectAsState()
-    val darkModeEnabled by settingViewModel.darkModeEnabled.collectAsState()
-    val systemModeEnabled by settingViewModel.systemModeEnabled.collectAsState()
+    val darkModeEnabled      by settingViewModel.darkModeEnabled.collectAsState()
+    val systemModeEnabled    by settingViewModel.systemModeEnabled.collectAsState()
 
 
 
@@ -135,7 +136,6 @@ fun SettingsActivityBody(settingViewModel: SettingViewModel) {
             checked = darkModeEnabled,
             onCheckedChange = { settingViewModel.toggleDarkModeEnabled(it) },
             enabled = !systemModeEnabled
-
         )
 
         Checkbox(title = "System Mode",
@@ -172,7 +172,9 @@ fun SettingsActivityUI(modifier: Modifier, settingViewModel: SettingViewModel)
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
+    val context = LocalContext.current
+    val viewModel = SettingViewModel(context) // Verwenden des lokalen Kontexts
     MyEnvironmentalsTheme {
-        SettingsActivityUI(modifier = Modifier, SettingViewModel())
+        SettingsActivityUI(modifier = Modifier, viewModel)
     }
 }
