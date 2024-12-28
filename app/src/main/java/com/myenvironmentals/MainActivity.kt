@@ -14,15 +14,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.myenvironmentals.ui.theme.BodyDark
+import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
-import com.myenvironmentals.ui.theme.TopBarDark
-import com.myenvironmentals.ui.theme.White
 import com.myenvironmentals.viewmodels.MainActivityViewModel
 
 
@@ -32,10 +29,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val standardSettingsReader = StandardSettingsReader(this)
+        //ViewModel verwenden
+        val viewModel: MainActivityViewModel = MainActivityViewModel(StandardSettingsReader(this))
+
 
         setContent {
             MyEnvironmentalsTheme {
-                MainScreen()
+                MainScreen(standardSettingsReader, viewModel)
             }
         }
     }
@@ -45,13 +46,12 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreen() {
-    //ViewModel verwenden
-    val viewModel: MainActivityViewModel = viewModel()
-    //Beobachte das Event, um eine neue Activity zu starten
-    val startNewActivity by viewModel.startNewActivityEvent.collectAsState()
+fun MainScreen(standardSettingsReader: StandardSettingsReader, viewModel: MainActivityViewModel) {
     //Hole den Context, um die Activity zu starten
     val context = LocalContext.current
+    //Beobachte das Event, um eine neue Activity zu starten
+    val startNewActivity by viewModel.startNewActivityEvent.collectAsState()
+
 
 
 
@@ -77,11 +77,11 @@ fun MainScreen() {
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(BodyDark), // Correct background modifier usage
+                .background(viewModel.getBodyBackgroundColor()), // Correct background modifier usage
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Hello, Android!", color = White)
+            Text(text = "Hello, Android!", color = viewModel.getFontColor())
         }
     }
 }
@@ -106,7 +106,7 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
                 }
                 DropdownMenu(
                     expanded = viewModel.expanded.value,
-                    onDismissRequest = { viewModel.toggleMenu() }
+                    onDismissRequest = { viewModel.toggleMenu() },
                 ) {
                     DropdownMenuItem(
                         text = { Text("Settings") },
@@ -120,9 +120,9 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = TopBarDark,
-            titleContentColor = Color.White,
-            actionIconContentColor = Color.White
+            containerColor = viewModel.getTopBarBackgroundColor(),
+            titleContentColor = viewModel.getFontColor(),
+            actionIconContentColor = viewModel.getFontColor()
         )
     )
 }
@@ -134,6 +134,10 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
 @Composable
 fun MainScreenPreview() {
     MyEnvironmentalsTheme {
-        MainScreen()
+        val standardSettingsReader = StandardSettingsReader(LocalContext.current)
+        //ViewModel verwenden
+        val viewModel: MainActivityViewModel = MainActivityViewModel(StandardSettingsReader(LocalContext.current))
+
+        MainScreen(standardSettingsReader, viewModel)
     }
 }

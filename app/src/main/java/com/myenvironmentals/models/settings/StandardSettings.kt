@@ -49,6 +49,7 @@ class StandardSettings (private val context: Context): ISettings {
 
 
             colorModeChecked = true
+            sharedPreferences.edit().putBoolean("colorModeChecked", true).apply()
         }
     }
 

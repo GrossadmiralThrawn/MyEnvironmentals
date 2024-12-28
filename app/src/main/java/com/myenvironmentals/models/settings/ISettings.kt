@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 
 
 
-interface ISettings: IGetSettings {
+interface ISettings: IReadSettings {
     fun switchToLightMode()
     fun switchToDarkMode()
     fun switchToSystemMode()

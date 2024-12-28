@@ -1,0 +1,58 @@
+package com.myenvironmentals.models.settings
+
+
+
+
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.compose.ui.graphics.Color
+import com.myenvironmentals.ui.theme.Black
+import com.myenvironmentals.ui.theme.BodyDark
+import com.myenvironmentals.ui.theme.BodyLight
+import com.myenvironmentals.ui.theme.TopBarDark
+import com.myenvironmentals.ui.theme.TopBarLight
+import com.myenvironmentals.ui.theme.White
+
+
+class StandardSettingsReader(private val context: Context): IReadSettings {
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("settings_prefs", Context.MODE_PRIVATE)
+    private var lightMode:         Boolean           = sharedPreferences.getBoolean("lightMode", false) //getBoolean ist eine Funktion, welche einen Defaultwert setzt, falls keiner in der aktuellen Datei vorhanden ist.
+    private var darkMode:          Boolean           = sharedPreferences.getBoolean("darkMode", false)
+    private var systemMode:        Boolean           = sharedPreferences.getBoolean("systemMode", true)
+
+
+
+
+    init {
+        loadSettings()
+    }
+
+
+
+
+    override fun getColorMode(): Char {
+        return when {
+            systemMode -> 's'
+            darkMode   -> 'r'
+            lightMode  -> 'l'
+            else -> 's'
+        }
+    }
+
+    override fun getColorSet(): Array<Color> {
+        return arrayOf(TopBarDark, TopBarLight, BodyDark, BodyLight, Black, White)
+    }
+
+    override fun getNotificationAllowed(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+
+
+
+    fun loadSettings() {
+        lightMode  = sharedPreferences.getBoolean("lightMode", false)
+        darkMode   = sharedPreferences.getBoolean("darkMode", false)
+        systemMode = sharedPreferences.getBoolean("systemMode", true)
+    }
+}

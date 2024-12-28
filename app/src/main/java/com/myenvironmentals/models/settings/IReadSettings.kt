@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 
 
 
-interface IGetSettings {
+interface IReadSettings {
     fun getColorMode(): Char
     /**
      * @return an array of top bar dark, light, body dark, light, font dark, light.
