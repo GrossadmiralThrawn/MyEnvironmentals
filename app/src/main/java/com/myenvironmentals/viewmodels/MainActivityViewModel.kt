@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.mutableStateOf
 import com.myenvironmentals.models.settings.IReadSettings
-import kotlinx.coroutines.delay
-import java.lang.Thread.sleep
+
+
 
 
 class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel() {

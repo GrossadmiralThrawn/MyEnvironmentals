@@ -125,7 +125,7 @@ fun SettingsActivityBody(settingViewModel: SettingViewModel) {
         )
 
         SettingToggle(
-            title = "Enable Notifications",
+            title = stringResource(R.string.enable_notifications),
             checked = notificationsEnabled,
             onCheckedChange = { settingViewModel.toggleNotificationsEnabled(it) },
             true,
@@ -133,7 +133,7 @@ fun SettingsActivityBody(settingViewModel: SettingViewModel) {
         )
 
         SettingToggle(
-            title = "Enable Dark Mode",
+            title = stringResource(R.string.enable_dark_mode),
             checked = darkModeEnabled,
             onCheckedChange = { settingViewModel.toggleDarkModeEnabled(it) },
             enabled = !systemModeEnabled,
@@ -141,7 +141,7 @@ fun SettingsActivityBody(settingViewModel: SettingViewModel) {
         )
 
         Checkbox(
-            title = "System Mode",
+            title = stringResource(R.string.enable_system_mode),
             checked = systemModeEnabled,
             onCheckedChange = { settingViewModel.systemModeEnabled(it) },
             settingViewModel

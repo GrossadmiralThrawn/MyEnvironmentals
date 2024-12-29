@@ -19,18 +19,17 @@ import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 
 
 
-class PlaceholderActivity : ComponentActivity() {
+class AddMicrocontroller : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MyEnvironmentalsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
+                    Greeting2(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
-                    finish()
                 }
             }
         }
@@ -38,7 +37,7 @@ class PlaceholderActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting2(name: String, modifier: Modifier = Modifier) {
     Text(
         text = "Hello $name!",
         modifier = modifier
@@ -47,8 +46,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview2() {
+fun GreetingPreview3() {
     MyEnvironmentalsTheme {
-        Greeting("Android")
+        Greeting2("Android")
     }
 }
