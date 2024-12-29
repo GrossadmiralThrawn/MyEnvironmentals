@@ -107,13 +107,16 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
                 DropdownMenu(
                     expanded = viewModel.expanded.value,
                     onDismissRequest = { viewModel.toggleMenu() },
+                    modifier = Modifier.background(viewModel.getBodyBackgroundColor())
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Settings") },
-                        onClick = { viewModel.startNewActivity() } // Ruft die Methode auf, die das Event auslöst
+                        text = { Text("Settings", color = viewModel.getFontColor())},
+                        onClick = { viewModel.startNewActivity()
+                            viewModel.toggleMenu()
+                        } // Ruft die Methode auf, die das Event auslöst
                     )
                     DropdownMenuItem(
-                        text = { Text("Option 2") },
+                        text = { Text("Option 2", color = viewModel.getFontColor())},
                         onClick = { /* Handle action 2 */ }
                     )
                 }

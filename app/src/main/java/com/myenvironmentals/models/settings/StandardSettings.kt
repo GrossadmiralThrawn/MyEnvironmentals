@@ -145,4 +145,8 @@ class StandardSettings (private val context: Context): ISettings {
     override fun getNotificationAllowed(): Boolean {
         TODO("Not yet implemented")
     }
+
+    override fun reloadPreferences() {
+        loadSettings()
+    }
 }

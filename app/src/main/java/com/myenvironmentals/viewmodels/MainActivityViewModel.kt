@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.mutableStateOf
 import com.myenvironmentals.models.settings.IReadSettings
-
-
+import kotlinx.coroutines.delay
+import java.lang.Thread.sleep
 
 
 class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel() {
@@ -46,6 +46,7 @@ class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel
     //Zurücksetzen des Events
     fun resetActivityEvent() {
         _startNewActivityEvent.value = false
+        reloadPreferences()
     }
 
 
@@ -98,5 +99,13 @@ class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel
             (colorMode == 'l' && !isSystemInDarkTheme()) || colorMode =='l'-> colorSet[4] // Light mode
             else -> colorSet[5] // Fallback (default dark mode)
         }
+    }
+
+
+
+
+    fun reloadPreferences()
+    {
+        readSettings.reloadPreferences()
     }
 }

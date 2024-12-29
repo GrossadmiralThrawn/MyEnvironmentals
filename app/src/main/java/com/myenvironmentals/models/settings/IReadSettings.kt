@@ -15,4 +15,5 @@ interface IReadSettings {
      */
     fun getColorSet(): Array<Color>
     fun getNotificationAllowed(): Boolean
+    fun reloadPreferences()
 }

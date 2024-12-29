@@ -14,6 +14,8 @@ import com.myenvironmentals.ui.theme.TopBarLight
 import com.myenvironmentals.ui.theme.White
 
 
+
+
 class StandardSettingsReader(private val context: Context): IReadSettings {
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("settings_prefs", Context.MODE_PRIVATE)
     private var lightMode:         Boolean           = sharedPreferences.getBoolean("lightMode", false) //getBoolean ist eine Funktion, welche einen Defaultwert setzt, falls keiner in der aktuellen Datei vorhanden ist.
@@ -47,7 +49,9 @@ class StandardSettingsReader(private val context: Context): IReadSettings {
         TODO("Not yet implemented")
     }
 
-
+    override fun reloadPreferences() {
+        loadSettings()
+    }
 
 
     fun loadSettings() {
