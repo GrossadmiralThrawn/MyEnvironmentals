@@ -37,7 +37,7 @@ class MainActivityViewModel (private val iReadSettings: IReadSettings): ViewMode
 
 
 
-    //Methode, um eine neue Activity zu starten
+    //Methode, welche den Event-Value togglet
     fun startSettingsActivity() {
         _startSettingsActivityEvent.value = true
     }
@@ -56,7 +56,6 @@ class MainActivityViewModel (private val iReadSettings: IReadSettings): ViewMode
     fun resetActivityEvents() {
         _startSettingsActivityEvent.value = false
         _startAddNewControllerEvent.value = false
-        reloadPreferences()
     }
 
 
@@ -108,13 +107,5 @@ class MainActivityViewModel (private val iReadSettings: IReadSettings): ViewMode
             (colorMode == 'l' && !isSystemInDarkTheme()) || colorMode =='l'-> colorSet[4] // Light mode
             else -> colorSet[5] // Fallback (default dark mode)
         }
-    }
-
-
-
-
-    fun reloadPreferences()
-    {
-        iReadSettings.reloadPreferences()
     }
 }

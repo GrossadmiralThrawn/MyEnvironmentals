@@ -1,4 +1,4 @@
-package com.myenvironmentals.models.Connections
+package com.myenvironmentals.models.connections
 
 
 

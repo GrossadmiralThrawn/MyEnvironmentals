@@ -25,6 +25,8 @@ import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.MainActivityViewModel
 
 
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +46,7 @@ class MainActivity : ComponentActivity() {
 
 
 
+    //Funktionm, die die UI updatet, wenn von einer anderen Activity zurückkommt.
     override fun onResume() {
         super.onResume()
         setContent{

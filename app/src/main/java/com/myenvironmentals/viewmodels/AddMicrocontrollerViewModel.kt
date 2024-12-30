@@ -5,7 +5,7 @@ package com.myenvironmentals.viewmodels
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
-import com.myenvironmentals.models.Connections.IConnection
+import com.myenvironmentals.models.connections.IConnection
 import com.myenvironmentals.models.settings.IReadSettings
 
 

@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.myenvironmentals.models.Connections.WLANConnection
+import com.myenvironmentals.models.connections.WLANConnection
 import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.AddMicrocontrollerViewModel
