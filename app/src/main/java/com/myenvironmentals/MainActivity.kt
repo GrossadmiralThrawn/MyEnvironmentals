@@ -8,7 +8,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -24,10 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.MainActivityViewModel
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.awaitCancellation
-import kotlinx.coroutines.delay
-import java.lang.Thread.sleep
 
 
 class MainActivity : ComponentActivity() {
@@ -51,6 +46,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        setContent{
+            MyEnvironmentalsTheme {
+                val standardSettingsReader = StandardSettingsReader(this)
+                MainScreen(standardSettingsReader, MainActivityViewModel(standardSettingsReader))
+            }
+        }
     }
 }
 
