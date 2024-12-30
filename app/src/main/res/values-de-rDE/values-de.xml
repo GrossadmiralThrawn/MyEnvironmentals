@@ -3,7 +3,7 @@
     <string name="add_environmental">Microcontroller hinzufügen</string>
     <string name="title_activity_settings">EinstellungenActivity</string>
     <string name="title_activity_placeholder">PlaceholderActivity</string>
-    <string name="title_activity_add_microcontroller">AddMicrocontroller</string>
+    <string name="title_activity_add_microcontroller">Mikrocontroller hinzufügen</string>
     <string name="settings">Einstellungen</string>
     <string name="enable_notifications">Benachrichtigungen aktivieren</string>
     <string name="enable_dark_mode">Aktiviere Dunkelmodus</string>

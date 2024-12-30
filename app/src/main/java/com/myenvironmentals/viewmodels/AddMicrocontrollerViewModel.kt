@@ -3,22 +3,51 @@ package com.myenvironmentals.viewmodels
 
 
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.myenvironmentals.models.Connections.IConnection
-import kotlinx.coroutines.launch
+import com.myenvironmentals.models.settings.IReadSettings
 
 
 
 
-class AddMicrocontrollerViewModel(private val connection: IConnection): ViewModel() {
-    val fabColor = mutableStateOf(Color.Blue)
-    val mainContentText = mutableStateOf("Main content")
+class AddMicrocontrollerViewModel(private val connection: IConnection, private val iReadSettings: IReadSettings): ViewModel() {
+    private val colorSet: Array<Color> = iReadSettings.getColorSet()
+    private val colorMode: Char        = iReadSettings.getColorMode()
 
-    fun onFabClick() {
-        viewModelScope.launch {//Do stuff with the interface.
+
+
+
+    fun getTopBarColor(): Color {
+        return when (colorMode)
+        {
+            'd'  -> colorSet[0]
+            'l'  -> colorSet[1]
+            else -> colorSet[0]
+        }
+    }
+
+
+
+
+    fun getBodyColor(): Color {
+        return when (colorMode)
+        {
+            'd'  -> colorSet[2]
+            'l'  -> colorSet[3]
+            else -> colorSet[2]
+        }
+    }
+
+
+
+
+    fun getFontColor(): Color {
+        return when (colorMode)
+        {
+            'd'  -> colorSet[5]
+            'l'  -> colorSet[4]
+            else -> colorSet[5]
         }
     }
 }

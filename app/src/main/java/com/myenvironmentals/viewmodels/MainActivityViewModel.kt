@@ -15,13 +15,15 @@ import com.myenvironmentals.models.settings.IReadSettings
 
 
 
-class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel() {
+class MainActivityViewModel (private val iReadSettings: IReadSettings): ViewModel() {
     // Zustand für das Dropdown-Menü
     var expanded = mutableStateOf(false)
         private set
     // StateFlow für das Event, das eine neue Activity starten soll
-    private val _startNewActivityEvent = MutableStateFlow(false)
-    val startNewActivityEvent: StateFlow<Boolean> = _startNewActivityEvent
+    private val _startSettingsActivityEvent            = MutableStateFlow(false)
+    val startSettingsActivityEvent: StateFlow<Boolean> = _startSettingsActivityEvent
+    private val _startAddNewControllerEvent            = MutableStateFlow(false)
+    val startAddNewControllerEvent: StateFlow<Boolean> = _startAddNewControllerEvent
 
 
 
@@ -36,32 +38,39 @@ class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel
 
 
     //Methode, um eine neue Activity zu starten
-    fun startNewActivity() {
-        _startNewActivityEvent.value = true
+    fun startSettingsActivity() {
+        _startSettingsActivityEvent.value = true
+    }
+
+
+
+
+    fun startAddMicrocontrollerActivity() {
+        _startAddNewControllerEvent.value = true
     }
 
 
 
 
     //Zurücksetzen des Events
-    fun resetActivityEvent() {
-        _startNewActivityEvent.value = false
+    fun resetActivityEvents() {
+        _startSettingsActivityEvent.value = false
+        _startAddNewControllerEvent.value = false
         reloadPreferences()
     }
 
 
 
 
-    @Composable
     fun getTopBarBackgroundColor(): Color {
-        val colorMode = readSettings.getColorMode()
-        val colorSet  = readSettings.getColorSet()
+        val colorMode             = iReadSettings.getColorMode()
+        val colorSet              = iReadSettings.getColorSet()
 
 
 
-        return when {
-            (colorMode == 's' && isSystemInDarkTheme())  || colorMode =='d' -> colorSet[0] // Dark mode und System im Dark-Theme
-            (colorMode == 'l' && !isSystemInDarkTheme()) || colorMode =='l'-> colorSet[1] // Light mode
+        return when (colorMode) {
+            's' -> colorSet[0] // Dark mode und System im Dark-Theme
+            'l' -> colorSet[1] // Light mode
             else -> colorSet[0] // Fallback (default dark mode)
         }
     }
@@ -72,8 +81,8 @@ class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel
     @Composable
     fun getBodyBackgroundColor(): Color
     {
-        val colorMode = readSettings.getColorMode()
-        val colorSet  = readSettings.getColorSet()
+        val colorMode = iReadSettings.getColorMode()
+        val colorSet  = iReadSettings.getColorSet()
 
 
 
@@ -89,8 +98,8 @@ class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel
 
     @Composable
     fun getFontColor(): Color {
-        val colorMode = readSettings.getColorMode()
-        val colorSet  = readSettings.getColorSet()
+        val colorMode = iReadSettings.getColorMode()
+        val colorSet  = iReadSettings.getColorSet()
 
 
 
@@ -106,6 +115,6 @@ class MainActivityViewModel (private val readSettings: IReadSettings): ViewModel
 
     fun reloadPreferences()
     {
-        readSettings.reloadPreferences()
+        iReadSettings.reloadPreferences()
     }
 }

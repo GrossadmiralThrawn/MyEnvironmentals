@@ -5,6 +5,7 @@ package com.myenvironmentals.models.settings
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import androidx.compose.ui.graphics.Color
 import com.myenvironmentals.ui.theme.Black
 import com.myenvironmentals.ui.theme.BodyDark
@@ -33,25 +34,42 @@ class StandardSettingsReader(private val context: Context): IReadSettings {
 
 
     override fun getColorMode(): Char {
+        val uiMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+
+
         return when {
             systemMode -> 's'
             darkMode   -> 'r'
             lightMode  -> 'l'
+            uiMode == Configuration.UI_MODE_NIGHT_YES -> 'd'
+            uiMode == Configuration.UI_MODE_NIGHT_NO -> 'l'
             else -> 's'
         }
     }
+
+
+
 
     override fun getColorSet(): Array<Color> {
         return arrayOf(TopBarDark, TopBarLight, BodyDark, BodyLight, Black, White)
     }
 
+
+
+
     override fun getNotificationAllowed(): Boolean {
         TODO("Not yet implemented")
     }
 
+
+
+
     override fun reloadPreferences() {
         loadSettings()
     }
+
+
 
 
     fun loadSettings() {

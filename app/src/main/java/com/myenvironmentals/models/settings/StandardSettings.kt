@@ -126,8 +126,8 @@ class StandardSettings (private val context: Context): ISettings {
     private fun getCurrentSystemColorMode(): Char {
         val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return when (currentNightMode) {
-            Configuration.UI_MODE_NIGHT_YES -> 'd' // Dark mode
-            Configuration.UI_MODE_NIGHT_NO -> 'l' // Light mode
+            Configuration.UI_MODE_NIGHT_YES -> 'd' //Dark mode
+            Configuration.UI_MODE_NIGHT_NO -> 'l'  //Light mode
             else -> 's' // System default or undefined
         }
     }

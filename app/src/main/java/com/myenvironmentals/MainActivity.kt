@@ -1,10 +1,14 @@
 package com.myenvironmentals
 
+
+
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -17,12 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.MainActivityViewModel
-
-
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.delay
+import java.lang.Thread.sleep
 
 
 class MainActivity : ComponentActivity() {
@@ -40,6 +45,13 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+
+
+    override fun onResume() {
+        super.onResume()
+    }
 }
 
 
@@ -50,18 +62,28 @@ fun MainScreen(standardSettingsReader: StandardSettingsReader, viewModel: MainAc
     //Hole den Context, um die Activity zu starten
     val context = LocalContext.current
     //Beobachte das Event, um eine neue Activity zu starten
-    val startNewActivity by viewModel.startNewActivityEvent.collectAsState()
+    val startSettingsActivity         by viewModel.startSettingsActivityEvent.collectAsState()
+    val startAddNewControllerActivity by viewModel.startAddNewControllerEvent.collectAsState()
 
 
 
-
-    // Wenn das Event ausgelöst wird, starte eine neue Activity
-    LaunchedEffect(startNewActivity) {
-        if (startNewActivity) {
-            // Neue Activity starten
+    //Wenn das Event ausgelöst wird, starte eine neue Activity
+    LaunchedEffect(startSettingsActivity) {
+        if (startSettingsActivity) {
+            //Neue Activity starten
             context.startActivity(Intent(context, SettingsActivity::class.java))
             // Event zurücksetzen, um zu verhindern, dass es wiederholt ausgelöst wird
-            viewModel.resetActivityEvent()
+            viewModel.resetActivityEvents()
+        }
+    }
+
+
+
+    LaunchedEffect(startAddNewControllerActivity) {
+        if (startAddNewControllerActivity)
+        {
+            context.startActivity(Intent(context, AddMicrocontroller::class.java))
+            viewModel.resetActivityEvents()
         }
     }
 
@@ -71,7 +93,8 @@ fun MainScreen(standardSettingsReader: StandardSettingsReader, viewModel: MainAc
         topBar = {
             AppTopBar(viewModel)
         },
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -93,16 +116,14 @@ fun MainScreen(standardSettingsReader: StandardSettingsReader, viewModel: MainAc
 @Composable
 fun AppTopBar(viewModel: MainActivityViewModel) {
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name)) },
+        title = { Text(stringResource(R.string.app_name), color = viewModel.getFontColor()) },
         actions = {
-            // Search Icon
             IconButton(onClick = { /* Handle search action */ }) {
-                Icon(Icons.Default.Search, contentDescription = "Search")
+                Icon(Icons.Default.Search, contentDescription = "Search", tint = viewModel.getFontColor())
             }
-            // Dropdown Menu Icon
             Box {
                 IconButton(onClick = { viewModel.toggleMenu() }) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "Options")
+                    Icon(Icons.Default.MoreVert, contentDescription = "Options", tint = viewModel.getFontColor())
                 }
                 DropdownMenu(
                     expanded = viewModel.expanded.value,
@@ -110,14 +131,18 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
                     modifier = Modifier.background(viewModel.getBodyBackgroundColor())
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Settings", color = viewModel.getFontColor())},
-                        onClick = { viewModel.startNewActivity()
+                        text = { Text(stringResource(R.string.settings), color = viewModel.getFontColor()) },
+                        onClick = {
+                            viewModel.startSettingsActivity()
                             viewModel.toggleMenu()
-                        } // Ruft die Methode auf, die das Event auslöst
+                        }
                     )
                     DropdownMenuItem(
-                        text = { Text("Option 2", color = viewModel.getFontColor())},
-                        onClick = { /* Handle action 2 */ }
+                        text = { Text(stringResource(R.string.add_environmental), color = viewModel.getFontColor()) },
+                        onClick = {
+                            viewModel.startAddMicrocontrollerActivity()
+                            viewModel.toggleMenu()
+                        }
                     )
                 }
             }
