@@ -31,14 +31,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val standardSettingsReader = StandardSettingsReader(this)
         //ViewModel verwenden
         val viewModel: MainActivityViewModel = MainActivityViewModel(StandardSettingsReader(this))
 
 
         setContent {
             MyEnvironmentalsTheme {
-                MainScreen(standardSettingsReader, viewModel)
+                MainScreen(viewModel)
             }
         }
     }
@@ -52,7 +51,7 @@ class MainActivity : ComponentActivity() {
         setContent{
             MyEnvironmentalsTheme {
                 val standardSettingsReader = StandardSettingsReader(this)
-                MainScreen(standardSettingsReader, MainActivityViewModel(standardSettingsReader))
+                MainScreen(MainActivityViewModel(standardSettingsReader))
             }
         }
     }
@@ -62,7 +61,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreen(standardSettingsReader: StandardSettingsReader, viewModel: MainActivityViewModel) {
+fun MainScreen(viewModel: MainActivityViewModel) {
     //Hole den Context, um die Activity zu starten
     val context = LocalContext.current
     //Beobachte das Event, um eine neue Activity zu starten
@@ -166,10 +165,10 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
 @Composable
 fun MainScreenPreview() {
     MyEnvironmentalsTheme {
-        val standardSettingsReader = StandardSettingsReader(LocalContext.current)
+        StandardSettingsReader(LocalContext.current)
         //ViewModel verwenden
         val viewModel: MainActivityViewModel = MainActivityViewModel(StandardSettingsReader(LocalContext.current))
 
-        MainScreen(standardSettingsReader, viewModel)
+        MainScreen(viewModel)
     }
 }
