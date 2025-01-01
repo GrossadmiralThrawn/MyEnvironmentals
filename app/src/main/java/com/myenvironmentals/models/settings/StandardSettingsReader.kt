@@ -7,12 +7,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.compose.ui.graphics.Color
-import com.myenvironmentals.ui.theme.Black
-import com.myenvironmentals.ui.theme.BodyDark
-import com.myenvironmentals.ui.theme.BodyLight
-import com.myenvironmentals.ui.theme.TopBarDark
-import com.myenvironmentals.ui.theme.TopBarLight
-import com.myenvironmentals.ui.theme.White
+import com.myenvironmentals.ui.theme.*
 
 
 
@@ -53,6 +48,40 @@ class StandardSettingsReader(private val context: Context): IReadSettings {
 
     override fun getColorSet(): Array<Color> {
         return arrayOf(TopBarDark, TopBarLight, BodyDark, BodyLight, Black, White)
+    }
+
+
+
+
+    override fun getColor(elementType: Char): Color
+    {
+        val colorMode = getColorMode()
+        return when (elementType)
+        {
+            't' -> {
+                when (colorMode) {
+                    'l' -> TopBarLight
+                    'd' -> TopBarDark
+                    else -> TopBarDark
+                }
+            }
+            'b' -> {
+                when (colorMode) {
+                    'd' -> BodyDark
+                    'l' -> BodyLight
+                    else -> BodyDark
+                }
+            }
+            'f' -> {
+                when (colorMode)
+                {
+                    'd' -> White
+                    'l' -> Black
+                    else -> White
+                }
+            }
+            else -> Purple700
+        }
     }
 
 

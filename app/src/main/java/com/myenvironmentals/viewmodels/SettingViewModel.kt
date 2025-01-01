@@ -104,17 +104,7 @@ class SettingViewModel(context: Context): ViewModel() {
     @Composable
     fun getBackgroundColorTopBar(): Color
     {
-        val systemModeEnabled by this.systemModeEnabled.collectAsState()
-        val darkModeEnabled by this.darkModeEnabled.collectAsState()
-
-
-
-        return when {
-            systemModeEnabled && isSystemInDarkTheme() -> TopBarDark   //Dark mode in System Mode
-            systemModeEnabled && !isSystemInDarkTheme() -> TopBarLight //Light mode in system Mode
-            darkModeEnabled -> TopBarDark // Explicit Dark Mode
-            else -> TopBarLight // Light Mode
-        }
+        return standardSettings.getColor('t')
     }
 
 

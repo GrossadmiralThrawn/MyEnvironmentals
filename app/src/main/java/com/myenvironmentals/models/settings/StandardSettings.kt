@@ -1,8 +1,6 @@
 package com.myenvironmentals.models.settings
 
 
-
-
 import android.content.Context           //Nutzt den Kontext in dem sie erstellt wurde.
 import android.content.SharedPreferences //Shared Preferences sind eine Möglichkeit in
 import android.content.res.Configuration//Android Studio um Daten activityübergreifend
@@ -10,37 +8,35 @@ import androidx.compose.ui.graphics.Color
 import com.myenvironmentals.ui.theme.Black
 import com.myenvironmentals.ui.theme.BodyDark
 import com.myenvironmentals.ui.theme.BodyLight
+import com.myenvironmentals.ui.theme.Purple700
 import com.myenvironmentals.ui.theme.TopBarDark
 import com.myenvironmentals.ui.theme.TopBarLight
 import com.myenvironmentals.ui.theme.White
 
 
-
-
-
-class StandardSettings (private val context: Context): ISettings {
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("settings_prefs", Context.MODE_PRIVATE)
-    private var lightMode:         Boolean           = sharedPreferences.getBoolean("lightMode", false) //getBoolean ist eine Funktion, welche einen Defaultwert setzt, falls keiner in der aktuellen Datei vorhanden ist.
-    private var darkMode:          Boolean           = sharedPreferences.getBoolean("darkMode", false)
-    private var systemMode:        Boolean           = sharedPreferences.getBoolean("systemMode", true)
-    private var colorModeChecked:  Boolean           = sharedPreferences.getBoolean("colorModeChecked", false)
+class StandardSettings(private val context: Context) : ISettings {
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("settings_prefs", Context.MODE_PRIVATE)
+    private var lightMode: Boolean = sharedPreferences.getBoolean(
+        "lightMode",
+        false
+    ) //getBoolean ist eine Funktion, welche einen Defaultwert setzt, falls keiner in der aktuellen Datei vorhanden ist.
+    private var darkMode: Boolean = sharedPreferences.getBoolean("darkMode", false)
+    private var systemMode: Boolean = sharedPreferences.getBoolean("systemMode", true)
+    private var colorModeChecked: Boolean = sharedPreferences.getBoolean("colorModeChecked", false)
 
 
 
 
     init {
-        if (colorModeChecked)
-        {
+        if (colorModeChecked) {
             loadSettings()
             sharedPreferences.edit().putBoolean("colorModeChecked", true).apply()
-        }
-        else
-        {
+        } else {
             val preSetting = getCurrentSystemColorMode()
 
 
-            when (preSetting)
-            {
+            when (preSetting) {
                 's' -> switchToSystemMode()
                 'd' -> switchToDarkMode()
                 'l' -> switchToLightMode()
@@ -66,27 +62,29 @@ class StandardSettings (private val context: Context): ISettings {
 
 
     override fun switchToLightMode() {
-        lightMode  = true
-        darkMode   = false
+        lightMode = true
+        darkMode = false
         systemMode = false
         saveColorMode()
     }
 
 
 
-    override fun switchToDarkMode(){
-        darkMode   = true
-        lightMode  = false
+
+    override fun switchToDarkMode() {
+        darkMode = true
+        lightMode = false
         systemMode = false
         saveColorMode()
     }
+
 
 
 
     override fun switchToSystemMode() {
         systemMode = true
-        lightMode  = false
-        darkMode   = false
+        lightMode = false
+        darkMode = false
         saveColorMode()
     }
 
@@ -124,7 +122,8 @@ class StandardSettings (private val context: Context): ISettings {
 
 
     private fun getCurrentSystemColorMode(): Char {
-        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val currentNightMode =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return when (currentNightMode) {
             Configuration.UI_MODE_NIGHT_YES -> 'd' //Dark mode
             Configuration.UI_MODE_NIGHT_NO -> 'l'  //Light mode
@@ -146,7 +145,41 @@ class StandardSettings (private val context: Context): ISettings {
         TODO("Not yet implemented")
     }
 
+
+
+
     override fun reloadPreferences() {
         loadSettings()
+    }
+
+
+
+
+    override fun getColor(elementType: Char): Color {
+        val colorMode = getColorMode()
+        return when (elementType) {
+            't' -> {
+                when (colorMode) {
+                    'd' -> TopBarDark
+                    'l' -> TopBarLight
+                    else -> TopBarDark
+                }
+            }
+            'b' -> {
+                when (colorMode) {
+                    'd' -> BodyDark
+                    'l' -> BodyLight
+                    else -> BodyDark
+                }
+            }
+            'f' -> {
+                when (colorMode) {
+                    'd' -> White
+                    'l' -> Black
+                    else -> White
+                }
+            }
+            else -> Purple700
+        }
     }
 }

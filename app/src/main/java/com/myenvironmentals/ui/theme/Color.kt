@@ -1,6 +1,11 @@
 package com.myenvironmentals.ui.theme
 
+
+
 import androidx.compose.ui.graphics.Color
+
+
+
 
 val Purple200 = Color(0xFFBB86FC) // Synchronisiert mit purple_200
 val Purple500 = Color(0xFF6200EE) // Synchronisiert mit purple_500

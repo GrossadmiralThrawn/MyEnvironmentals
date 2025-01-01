@@ -104,11 +104,11 @@ fun MainScreen(standardSettingsReader: StandardSettingsReader, viewModel: MainAc
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(viewModel.getBodyBackgroundColor()), // Correct background modifier usage
+                .background(viewModel.getColor('b')), // Correct background modifier usage
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Hello, Android!", color = viewModel.getFontColor())
+            Text(text = "Hello, Android!", color = viewModel.getColor('f'))
         }
     }
 }
@@ -120,29 +120,29 @@ fun MainScreen(standardSettingsReader: StandardSettingsReader, viewModel: MainAc
 @Composable
 fun AppTopBar(viewModel: MainActivityViewModel) {
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name), color = viewModel.getFontColor()) },
+        title = { Text(stringResource(R.string.app_name), color = viewModel.getColor('f')) },
         actions = {
             IconButton(onClick = { /* Handle search action */ }) {
-                Icon(Icons.Default.Search, contentDescription = "Search", tint = viewModel.getFontColor())
+                Icon(Icons.Default.Search, contentDescription = "Search", tint = viewModel.getColor('f'))
             }
             Box {
                 IconButton(onClick = { viewModel.toggleMenu() }) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "Options", tint = viewModel.getFontColor())
+                    Icon(Icons.Default.MoreVert, contentDescription = "Options", tint = viewModel.getColor('f'))
                 }
                 DropdownMenu(
                     expanded = viewModel.expanded.value,
                     onDismissRequest = { viewModel.toggleMenu() },
-                    modifier = Modifier.background(viewModel.getBodyBackgroundColor())
+                    modifier = Modifier.background(viewModel.getColor('b'))
                 ) {
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings), color = viewModel.getFontColor()) },
+                        text = { Text(stringResource(R.string.settings), color = viewModel.getColor('f')) },
                         onClick = {
                             viewModel.startSettingsActivity()
                             viewModel.toggleMenu()
                         }
                     )
                     DropdownMenuItem(
-                        text = { Text(stringResource(R.string.add_environmental), color = viewModel.getFontColor()) },
+                        text = { Text(stringResource(R.string.add_environmental), color = viewModel.getColor('f')) },
                         onClick = {
                             viewModel.startAddMicrocontrollerActivity()
                             viewModel.toggleMenu()
@@ -152,9 +152,9 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = viewModel.getTopBarBackgroundColor(),
-            titleContentColor = viewModel.getFontColor(),
-            actionIconContentColor = viewModel.getFontColor()
+            containerColor = viewModel.getColor('t'),
+            titleContentColor = viewModel.getColor('f'),
+            actionIconContentColor = viewModel.getColor('f')
         )
     )
 }

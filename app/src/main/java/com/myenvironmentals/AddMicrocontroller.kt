@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.myenvironmentals.models.connections.WLANConnection
 import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.AddMicrocontrollerViewModel
@@ -39,7 +38,7 @@ class AddMicrocontroller : ComponentActivity() {
         setContent {
             MyEnvironmentalsTheme {
                 ConnectionTypeSelection(
-                    AddMicrocontrollerViewModel(WLANConnection(), StandardSettingsReader(this)),
+                    AddMicrocontrollerViewModel(StandardSettingsReader(this)),
                     name = "Android",
                     modifier = Modifier.padding()
                 )
@@ -63,11 +62,11 @@ fun ConnectionTypeSelection(viewModel: AddMicrocontrollerViewModel, name: String
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(viewModel.getBodyColor()), // Correct background modifier usage
+                .background(viewModel.getColor('b')), // Correct background modifier usage
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Hello, Android!", color = viewModel.getFontColor())
+            Text(text = "Hello, Android!", color = viewModel.getColor('f'))
         }
     }
 }
@@ -82,9 +81,9 @@ fun AppTopBar(viewModel: AddMicrocontrollerViewModel)
     TopAppBar(
         title = { Text(stringResource(R.string.app_name) + " -> " + stringResource(R.string.title_activity_add_microcontroller)) },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = viewModel.getTopBarColor(),
-            titleContentColor = viewModel.getFontColor(),
-            actionIconContentColor = viewModel.getFontColor()
+            containerColor = viewModel.getColor('t'),
+            titleContentColor = viewModel.getColor('f'),
+            actionIconContentColor = viewModel.getColor('b'),
         )
     )
 }
@@ -95,7 +94,8 @@ fun AppTopBar(viewModel: AddMicrocontrollerViewModel)
 @Composable
 fun GreetingPreview3() {
     MyEnvironmentalsTheme {
-        ConnectionTypeSelection(AddMicrocontrollerViewModel(WLANConnection(), StandardSettingsReader(
+        ConnectionTypeSelection(AddMicrocontrollerViewModel(
+            StandardSettingsReader(
             LocalContext.current
         )), "Android")
     }

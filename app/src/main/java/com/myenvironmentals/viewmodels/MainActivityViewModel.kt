@@ -3,7 +3,6 @@ package com.myenvironmentals.viewmodels
 
 
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
@@ -61,51 +60,9 @@ class MainActivityViewModel (private val iReadSettings: IReadSettings): ViewMode
 
 
 
-    fun getTopBarBackgroundColor(): Color {
-        val colorMode             = iReadSettings.getColorMode()
-        val colorSet              = iReadSettings.getColorSet()
-
-
-
-        return when (colorMode) {
-            's' -> colorSet[0] // Dark mode und System im Dark-Theme
-            'l' -> colorSet[1] // Light mode
-            else -> colorSet[0] // Fallback (default dark mode)
-        }
-    }
-
-
-
-
     @Composable
-    fun getBodyBackgroundColor(): Color
+    fun getColor(position: Char): Color
     {
-        val colorMode = iReadSettings.getColorMode()
-        val colorSet  = iReadSettings.getColorSet()
-
-
-
-        return when {
-            (colorMode == 's' && isSystemInDarkTheme())  || colorMode =='d' -> colorSet[2] // Dark mode und System im Dark-Theme
-            (colorMode == 'l' && !isSystemInDarkTheme()) || colorMode =='l'-> colorSet[3] // Light mode
-            else -> colorSet[2] // Fallback (default dark mode)
-        }
-    }
-
-
-
-
-    @Composable
-    fun getFontColor(): Color {
-        val colorMode = iReadSettings.getColorMode()
-        val colorSet  = iReadSettings.getColorSet()
-
-
-
-        return when {
-            (colorMode == 's' && isSystemInDarkTheme())  || colorMode =='d' -> colorSet[5] // Dark mode und System im Dark-Theme
-            (colorMode == 'l' && !isSystemInDarkTheme()) || colorMode =='l'-> colorSet[4] // Light mode
-            else -> colorSet[5] // Fallback (default dark mode)
-        }
+        return iReadSettings.getColor(position)
     }
 }

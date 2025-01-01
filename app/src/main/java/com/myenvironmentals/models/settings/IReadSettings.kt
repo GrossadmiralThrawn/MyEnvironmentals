@@ -16,4 +16,11 @@ interface IReadSettings {
     fun getColorSet(): Array<Color>
     fun getNotificationAllowed(): Boolean
     fun reloadPreferences()
+
+    /**
+     * @param elementType is a character which can be t for top bar b for body fo for font or
+     *        e for else.
+     * @return returns the color which should be used there
+     */
+    fun getColor(elementType: Char): Color
 }
