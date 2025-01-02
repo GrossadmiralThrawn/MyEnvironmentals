@@ -80,6 +80,13 @@ class StandardSettingsReader(private val context: Context): IReadSettings {
                     else -> White
                 }
             }
+            'm' -> {
+                when (colorMode) {
+                    'd' -> DropDownMenuDark
+                    'l' -> DropDownMenuLight
+                    else -> DropDownMenuDark
+                }
+            }
             else -> Purple700
         }
     }

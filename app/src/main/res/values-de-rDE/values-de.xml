@@ -2,9 +2,10 @@
 <resources>
     <string name="add_environmental">Microcontroller hinzufügen</string>
     <string name="title_activity_settings">EinstellungenActivity</string>
-    <string name="title_activity_placeholder">PlaceholderActivity</string>
     <string name="title_activity_add_microcontroller">Mikrocontroller hinzufügen</string>
     <string name="settings">Einstellungen</string>
+    <string name="primary_settings">Primäreinstellungen</string>
+    <string name="theme">Farbmodus</string>
     <string name="enable_notifications">Benachrichtigungen aktivieren</string>
     <string name="enable_dark_mode">Aktiviere Dunkelmodus</string>
     <string name="enable_system_mode">Aktiviere Systemmodus</string>

@@ -21,6 +21,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.myenvironmentals.models.settings.StandardSettingsReader
+import com.myenvironmentals.ui.theme.DropDownMenuDark
+import com.myenvironmentals.ui.theme.DropDownMenuLight
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.MainActivityViewModel
 
@@ -131,7 +133,7 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
                 DropdownMenu(
                     expanded = viewModel.expanded.value,
                     onDismissRequest = { viewModel.toggleMenu() },
-                    modifier = Modifier.background(viewModel.getColor('b'))
+                    modifier = Modifier.background(viewModel.getColor('m'))
                 ) {
                     DropdownMenuItem(
                         text = { Text(stringResource(R.string.settings), color = viewModel.getColor('f')) },

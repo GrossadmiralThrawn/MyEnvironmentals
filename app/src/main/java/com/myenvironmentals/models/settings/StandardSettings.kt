@@ -1,17 +1,15 @@
 package com.myenvironmentals.models.settings
 
 
+
+
 import android.content.Context           //Nutzt den Kontext in dem sie erstellt wurde.
 import android.content.SharedPreferences //Shared Preferences sind eine Möglichkeit in
-import android.content.res.Configuration//Android Studio um Daten activityübergreifend
+import android.content.res.Configuration //Android Studio um Daten activityübergreifend
 import androidx.compose.ui.graphics.Color
-import com.myenvironmentals.ui.theme.Black
-import com.myenvironmentals.ui.theme.BodyDark
-import com.myenvironmentals.ui.theme.BodyLight
-import com.myenvironmentals.ui.theme.Purple700
-import com.myenvironmentals.ui.theme.TopBarDark
-import com.myenvironmentals.ui.theme.TopBarLight
-import com.myenvironmentals.ui.theme.White
+import com.myenvironmentals.ui.theme.*
+
+
 
 
 class StandardSettings(private val context: Context) : ISettings {
@@ -53,8 +51,8 @@ class StandardSettings(private val context: Context) : ISettings {
 
 
     fun loadSettings() {
-        lightMode = sharedPreferences.getBoolean("lightMode", false)
-        darkMode = sharedPreferences.getBoolean("darkMode", false)
+        lightMode  = sharedPreferences.getBoolean("lightMode", false)
+        darkMode   = sharedPreferences.getBoolean("darkMode", false)
         systemMode = sharedPreferences.getBoolean("systemMode", true)
     }
 
