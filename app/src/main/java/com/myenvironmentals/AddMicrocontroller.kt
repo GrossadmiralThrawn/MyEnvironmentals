@@ -39,8 +39,7 @@ class AddMicrocontroller : ComponentActivity() {
             MyEnvironmentalsTheme {
                 ConnectionTypeSelection(
                     AddMicrocontrollerViewModel(StandardSettingsReader(this)),
-                    name = "Android",
-                    modifier = Modifier.padding()
+                    name = "Android"
                 )
             }
         }
@@ -51,7 +50,7 @@ class AddMicrocontroller : ComponentActivity() {
 
 
 @Composable
-fun ConnectionTypeSelection(viewModel: AddMicrocontrollerViewModel, name: String, modifier: Modifier = Modifier) {
+fun ConnectionTypeSelection(viewModel: AddMicrocontrollerViewModel, name: String) {
     Scaffold(
         topBar = {
             AppTopBar(viewModel)

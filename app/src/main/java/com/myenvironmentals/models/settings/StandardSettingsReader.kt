@@ -101,7 +101,7 @@ class StandardSettingsReader(private val context: Context): IReadSettings {
 
 
 
-    fun loadSettings() {
+    private inline fun loadSettings() {
         lightMode  = sharedPreferences.getBoolean("lightMode", false)
         darkMode   = sharedPreferences.getBoolean("darkMode", false)
         systemMode = sharedPreferences.getBoolean("systemMode", true)
