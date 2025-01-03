@@ -18,7 +18,10 @@ interface IReadSettings {
     fun reloadPreferences()
 
     /**
-     * @param elementType is a character which can be t for top bar b for body fo for font or
+     * @param elementType is a character which can be t for top bar
+     *        b for body
+     *        f for font or
+     *        m for menu
      *        e for else.
      * @return returns the color which should be used there
      */

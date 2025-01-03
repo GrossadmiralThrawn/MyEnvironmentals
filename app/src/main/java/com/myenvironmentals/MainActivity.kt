@@ -12,7 +12,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,8 +20,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.myenvironmentals.models.settings.StandardSettingsReader
-import com.myenvironmentals.ui.theme.DropDownMenuDark
-import com.myenvironmentals.ui.theme.DropDownMenuLight
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.MainActivityViewModel
 
@@ -123,9 +120,6 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
     TopAppBar(
         title = { Text(stringResource(R.string.app_name), color = viewModel.getColor('f')) },
         actions = {
-            IconButton(onClick = { /* Handle search action */ }) {
-                Icon(Icons.Default.Search, contentDescription = "Search", tint = viewModel.getColor('f'))
-            }
             Box {
                 IconButton(onClick = { viewModel.toggleMenu() }) {
                     Icon(Icons.Default.MoreVert, contentDescription = "Options", tint = viewModel.getColor('f'))

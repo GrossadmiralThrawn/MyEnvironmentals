@@ -4,29 +4,42 @@ package com.myenvironmentals
 
 
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.AddMicrocontrollerViewModel
+import androidx.compose.runtime.getValue
+import com.myenvironmentals.models.connections.*
 
 
 
@@ -38,8 +51,8 @@ class AddMicrocontroller : ComponentActivity() {
         setContent {
             MyEnvironmentalsTheme {
                 ConnectionTypeSelection(
-                    AddMicrocontrollerViewModel(StandardSettingsReader(this)),
-                    name = "Android"
+                    this,
+                    AddMicrocontrollerViewModel(StandardSettingsReader(this))
                 )
             }
         }
@@ -50,7 +63,32 @@ class AddMicrocontroller : ComponentActivity() {
 
 
 @Composable
-fun ConnectionTypeSelection(viewModel: AddMicrocontrollerViewModel, name: String) {
+fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewModel) {
+    val startAnimation by viewModel.startConnectionAnimationEvent.collectAsState()
+
+
+
+
+
+    LaunchedEffect(startAnimation) {
+        val intent = Intent(context, PlaceholderActivity::class.java)
+
+
+
+        if (startAnimation) {
+            val wlanConnection = WLANConnection()
+
+
+
+            viewModel.setConnectionType(wlanConnection)
+            context.startActivity(intent)
+            viewModel.connectionAnimation()
+        }
+    }
+
+
+
+
     Scaffold(
         topBar = {
             AppTopBar(viewModel)
@@ -62,10 +100,24 @@ fun ConnectionTypeSelection(viewModel: AddMicrocontrollerViewModel, name: String
                 .padding(innerPadding)
                 .fillMaxSize()
                 .background(viewModel.getColor('b')), // Correct background modifier usage
-            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
-            Text(text = "Hello, Android!", color = viewModel.getColor('f'))
+            Spacer(modifier = Modifier.padding(16.dp))
+            TextButton (
+                onClick = {
+                    viewModel.connectionAnimation()
+                },
+                modifier = Modifier
+                    .background(viewModel.getColor('e')),
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_network_wifi_3_bar_24), // Replace with your drawable resource
+                    contentDescription = "Image Button",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(64.dp),
+                )
+            }
         }
     }
 }
@@ -89,13 +141,25 @@ fun AppTopBar(viewModel: AddMicrocontrollerViewModel)
 
 
 
+
+
+
+
+
+
+
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview3() {
+fun AddMicrocontrollerPreview() {
     MyEnvironmentalsTheme {
-        ConnectionTypeSelection(AddMicrocontrollerViewModel(
-            StandardSettingsReader(
-            LocalContext.current
-        )), "Android")
+        ConnectionTypeSelection(
+            LocalContext.current,
+            AddMicrocontrollerViewModel
+            (
+                StandardSettingsReader(
+                    LocalContext.current
+                )
+            )
+        )
     }
 }
