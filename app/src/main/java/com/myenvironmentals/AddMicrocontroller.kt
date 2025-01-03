@@ -12,6 +12,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import com.myenvironmentals.models.connections.WLANConnection
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,9 +41,7 @@ import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.AddMicrocontrollerViewModel
 import androidx.compose.runtime.getValue
-import com.myenvironmentals.models.connections.*
-
-
+import androidx.compose.ui.graphics.ColorFilter.Companion.tint
 
 
 class AddMicrocontroller : ComponentActivity() {
@@ -109,15 +109,22 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                     viewModel.connectionAnimation()
                 },
                 modifier = Modifier
-                    .background(viewModel.getColor('e')),
+                    .background(viewModel.getColor('b')),
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.baseline_network_wifi_3_bar_24), // Replace with your drawable resource
                     contentDescription = "Image Button",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.size(64.dp),
+                    colorFilter = tint(viewModel.getColor('f')) // Wende die Farbe dynamisch an
                 )
             }
+            Text(text = "WLAN",
+                color = viewModel.getColor('f'),
+                modifier = Modifier.clickable {
+                    viewModel.connectionAnimation()
+                },
+                )
         }
     }
 }
