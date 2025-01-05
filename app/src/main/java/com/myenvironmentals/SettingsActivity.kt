@@ -54,7 +54,11 @@ class SettingsActivity : ComponentActivity() {
 @Composable
 fun TopAppBar(settingViewModel: SettingViewModel) {
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name) + " -> " + stringResource(R.string.settings)) },
+        title = {
+            Text(
+                stringResource(R.string.settings),
+                style = MaterialTheme.run { typography.headlineLarge.copy(fontWeight = FontWeight.Bold) }
+                ) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = settingViewModel.getBackgroundColorTopBar(),
             titleContentColor = settingViewModel.getFontColor(),
@@ -132,7 +136,7 @@ fun SettingsActivityBody(settingViewModel: SettingViewModel) {
         Spacer(modifier = Modifier.padding(8.dp))
 
         Text(
-            text = "Primary Settings",
+            text = stringResource(R.string.primary_settings),
             style = MaterialTheme.typography.headlineMedium,
             color =  settingViewModel.getFontColor()
         )

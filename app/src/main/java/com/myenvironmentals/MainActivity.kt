@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
@@ -118,7 +119,11 @@ fun MainScreen(viewModel: MainActivityViewModel) {
 @Composable
 fun AppTopBar(viewModel: MainActivityViewModel) {
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name), color = viewModel.getColor('f')) },
+        title = { Text(stringResource(R.string.app_name),
+            style = MaterialTheme.run { typography.headlineLarge.copy(fontWeight = FontWeight.Bold)},
+            color = viewModel.getColor('f'))
+        },
+
         actions = {
             Box {
                 IconButton(onClick = { viewModel.toggleMenu() }) {

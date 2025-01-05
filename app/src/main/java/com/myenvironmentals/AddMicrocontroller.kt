@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -42,6 +44,9 @@ import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.AddMicrocontrollerViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.ColorFilter.Companion.tint
+import androidx.compose.ui.text.font.FontWeight
+
+
 
 
 class AddMicrocontroller : ComponentActivity() {
@@ -104,6 +109,16 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
             verticalArrangement = Arrangement.Top
         ) {
             Spacer(modifier = Modifier.padding(16.dp))
+            Text(
+                text = stringResource(R.string.types_of_connection),
+                style = MaterialTheme.run {
+                    typography.headlineLarge.copy(
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                color = viewModel.getColor('f')
+            )
+            Spacer(modifier = Modifier.padding(32.dp))
             TextButton (
                 onClick = {
                     viewModel.connectionAnimation()
@@ -124,7 +139,31 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                 modifier = Modifier.clickable {
                     viewModel.connectionAnimation()
                 },
+            )
+
+            Spacer(modifier = Modifier.padding(16.dp))
+
+            TextButton (
+                onClick = {
+                    viewModel.connectionAnimation()
+                },
+                modifier = Modifier
+                    .background(viewModel.getColor('b')),
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_contactless_24), // Replace with your drawable resource
+                    contentDescription = "Image Button",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(64.dp),
+                    colorFilter = tint(viewModel.getColor('f')) // Wende die Farbe dynamisch an
                 )
+            }
+            Text(text = "NFC",
+                color = viewModel.getColor('f'),
+                modifier = Modifier.clickable {
+                    viewModel.connectionAnimation()
+                },
+            )
         }
     }
 }
@@ -137,7 +176,11 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
 fun AppTopBar(viewModel: AddMicrocontrollerViewModel)
 {
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name) + " -> " + stringResource(R.string.title_activity_add_microcontroller)) },
+        title = {
+            Text(
+            stringResource(R.string.title_activity_add_microcontroller),
+            style = MaterialTheme.run { typography.headlineLarge.copy(fontWeight = FontWeight.Bold) }
+        ) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = viewModel.getColor('t'),
             titleContentColor = viewModel.getColor('f'),

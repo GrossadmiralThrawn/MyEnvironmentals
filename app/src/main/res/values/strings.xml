@@ -10,4 +10,5 @@
     <string name="enable_dark_mode">Enable dark mode</string>
     <string name="enable_system_mode">Enable system mode</string>
     <string name="title_activity_placeholder">PlaceholderActivity</string>
+    <string name="types_of_connection">Types of connection</string>
 </resources>
