@@ -164,6 +164,30 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                     viewModel.connectionAnimation()
                 },
             )
+
+            Spacer(modifier = Modifier.padding(16.dp))
+
+            TextButton (
+                onClick = {
+                    viewModel.connectionAnimation()
+                },
+                modifier = Modifier
+                    .background(viewModel.getColor('b')),
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.baseline_bluetooth_24), // Replace with your drawable resource
+                    contentDescription = "Image Button",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(64.dp),
+                    colorFilter = tint(viewModel.getColor('f')) // Wende die Farbe dynamisch an
+                )
+            }
+            Text(text = "Bluetooth",
+                color = viewModel.getColor('f'),
+                modifier = Modifier.clickable {
+                    viewModel.connectionAnimation()
+                },
+            )
         }
     }
 }

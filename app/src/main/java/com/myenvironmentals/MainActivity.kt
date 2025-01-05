@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -16,12 +17,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter.Companion.tint
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
+import com.myenvironmentals.ui.theme.Purple40
 import com.myenvironmentals.viewmodels.MainActivityViewModel
 
 
@@ -62,52 +68,68 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(viewModel: MainActivityViewModel) {
-    //Hole den Context, um die Activity zu starten
     val context = LocalContext.current
-    //Beobachte das Event, um eine neue Activity zu starten
-    val startSettingsActivity         by viewModel.startSettingsActivityEvent.collectAsState()
+    val startSettingsActivity by viewModel.startSettingsActivityEvent.collectAsState()
     val startAddNewControllerActivity by viewModel.startAddNewControllerEvent.collectAsState()
 
-
-
-    //Wenn das Event ausgelöst wird, starte eine neue Activity
     LaunchedEffect(startSettingsActivity) {
         if (startSettingsActivity) {
-            //Neue Activity starten
             context.startActivity(Intent(context, SettingsActivity::class.java))
-            // Event zurücksetzen, um zu verhindern, dass es wiederholt ausgelöst wird
             viewModel.resetActivityEvents()
         }
     }
 
-
-
     LaunchedEffect(startAddNewControllerActivity) {
-        if (startAddNewControllerActivity)
-        {
+        if (startAddNewControllerActivity) {
             context.startActivity(Intent(context, AddMicrocontroller::class.java))
             viewModel.resetActivityEvents()
         }
     }
-
-
 
     Scaffold(
         topBar = {
             AppTopBar(viewModel)
         },
         modifier = Modifier.fillMaxSize(),
-
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(viewModel.getColor('b')), // Correct background modifier usage
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .background(viewModel.getColor('b'))
         ) {
-            Text(text = "Hello, Android!", color = viewModel.getColor('f'))
+            // Main content in the center
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(text = "Hello, Android!", color = viewModel.getColor('f'))
+            }
+
+            // Button in the bottom-right corner
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                TextButton(
+                    onClick = {
+                        viewModel.startAddMicrocontrollerActivity()
+                    },
+                    modifier = Modifier
+                        .background(viewModel.getColor('b')),
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.baseline_add_circle_outline_24),
+                        contentDescription = "Image Button",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(64.dp),
+                        colorFilter = tint(Purple40)
+                    )
+                }
+            }
         }
     }
 }
