@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -108,7 +107,10 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+            //Spacer für Abstände
             Spacer(modifier = Modifier.padding(16.dp))
+
+            //Überschrift
             Text(
                 text = stringResource(R.string.types_of_connection),
                 style = MaterialTheme.run {
@@ -118,7 +120,10 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                 },
                 color = viewModel.getColor('f')
             )
+
             Spacer(modifier = Modifier.padding(32.dp))
+
+            //Buttons mit Bildern umd die Verbindungsart auszuwählen.
             TextButton (
                 onClick = {
                     viewModel.connectionAnimation()

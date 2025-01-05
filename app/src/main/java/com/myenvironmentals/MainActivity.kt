@@ -72,6 +72,9 @@ fun MainScreen(viewModel: MainActivityViewModel) {
     val startSettingsActivity by viewModel.startSettingsActivityEvent.collectAsState()
     val startAddNewControllerActivity by viewModel.startAddNewControllerEvent.collectAsState()
 
+
+
+    //Starteffekt für die Einstellungen (startet die Activity)
     LaunchedEffect(startSettingsActivity) {
         if (startSettingsActivity) {
             context.startActivity(Intent(context, SettingsActivity::class.java))
@@ -79,6 +82,7 @@ fun MainScreen(viewModel: MainActivityViewModel) {
         }
     }
 
+    //Starteffekt zum Hinzufügen von Microcontrollern (startet die Activity)
     LaunchedEffect(startAddNewControllerActivity) {
         if (startAddNewControllerActivity) {
             context.startActivity(Intent(context, AddMicrocontroller::class.java))
@@ -86,6 +90,8 @@ fun MainScreen(viewModel: MainActivityViewModel) {
         }
     }
 
+
+    //"Körper" der UI.
     Scaffold(
         topBar = {
             AppTopBar(viewModel)
@@ -137,15 +143,17 @@ fun MainScreen(viewModel: MainActivityViewModel) {
 
 
 
+//Kümmert sich um die TopBarApp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(viewModel: MainActivityViewModel) {
     TopAppBar(
         title = { Text(stringResource(R.string.app_name),
-            style = MaterialTheme.run { typography.headlineLarge.copy(fontWeight = FontWeight.Bold)},
+            style = MaterialTheme.run { typography.headlineLarge.copy(fontWeight = FontWeight.Bold)}, //Kümmert sich um die Schriftart.
             color = viewModel.getColor('f'))
         },
 
+        //Actions, inklusive des Dropdownmenü
         actions = {
             Box {
                 IconButton(onClick = { viewModel.toggleMenu() }) {

@@ -141,6 +141,7 @@ fun SettingsActivityBody(settingViewModel: SettingViewModel) {
             color =  settingViewModel.getFontColor()
         )
 
+        //Togglemenü für die Benachrichtigungen
         SettingToggle(
             title = stringResource(R.string.enable_notifications),
             checked = notificationsEnabled,
