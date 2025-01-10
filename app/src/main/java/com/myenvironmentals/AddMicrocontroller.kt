@@ -1,3 +1,8 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
+
+
+
 package com.myenvironmentals
 
 
@@ -10,6 +15,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -69,7 +75,8 @@ class AddMicrocontroller : ComponentActivity() {
 @Composable
 fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewModel) {
     val startAnimation by viewModel.startConnectionAnimationEvent.collectAsState()
-
+    val fontColor by viewModel.fontColor.collectAsState()
+    val bodyColor by viewModel.bodyColor.collectAsState()
 
 
 
@@ -103,7 +110,7 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(viewModel.getColor('b')), // Correct background modifier usage
+                .background(bodyColor), // Correct background modifier usage
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
@@ -118,7 +125,7 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                         fontWeight = FontWeight.Bold
                     )
                 },
-                color = viewModel.getColor('f')
+                color = fontColor
             )
 
             Spacer(modifier = Modifier.padding(32.dp))
@@ -140,7 +147,7 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                 )
             }
             Text(text = "WLAN",
-                color = viewModel.getColor('f'),
+                color = fontColor,
                 modifier = Modifier.clickable {
                     viewModel.connectionAnimation()
                 },
@@ -160,11 +167,11 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                     contentDescription = "Image Button",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.size(64.dp),
-                    colorFilter = tint(viewModel.getColor('f')) // Wende die Farbe dynamisch an
+                    colorFilter = tint(fontColor) // Wende die Farbe dynamisch an
                 )
             }
             Text(text = "NFC",
-                color = viewModel.getColor('f'),
+                color = fontColor,
                 modifier = Modifier.clickable {
                     viewModel.connectionAnimation()
                 },
@@ -177,18 +184,18 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                     viewModel.connectionAnimation()
                 },
                 modifier = Modifier
-                    .background(viewModel.getColor('b')),
+                    .background(bodyColor),
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.baseline_bluetooth_24), // Replace with your drawable resource
                     contentDescription = "Image Button",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.size(64.dp),
-                    colorFilter = tint(viewModel.getColor('f')) // Wende die Farbe dynamisch an
+                    colorFilter = tint(fontColor) // Wende die Farbe dynamisch an
                 )
             }
             Text(text = "Bluetooth",
-                color = viewModel.getColor('f'),
+                color = fontColor,
                 modifier = Modifier.clickable {
                     viewModel.connectionAnimation()
                 },
@@ -204,6 +211,12 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
 @Composable
 fun AppTopBar(viewModel: AddMicrocontrollerViewModel)
 {
+    val topBarColor by viewModel.topBarColor.collectAsState()
+    val fontColor   by viewModel.fontColor.collectAsState()
+    val bodyColor   by viewModel.bodyColor.collectAsState()
+
+
+
     TopAppBar(
         title = {
             Text(
@@ -211,9 +224,9 @@ fun AppTopBar(viewModel: AddMicrocontrollerViewModel)
             style = MaterialTheme.run { typography.headlineLarge.copy(fontWeight = FontWeight.Bold) }
         ) },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = viewModel.getColor('t'),
-            titleContentColor = viewModel.getColor('f'),
-            actionIconContentColor = viewModel.getColor('b'),
+            containerColor = topBarColor,
+            titleContentColor = fontColor,
+            actionIconContentColor = bodyColor,
         )
     )
 }

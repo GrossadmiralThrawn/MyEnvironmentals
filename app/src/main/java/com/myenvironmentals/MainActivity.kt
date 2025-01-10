@@ -71,6 +71,8 @@ fun MainScreen(viewModel: MainActivityViewModel) {
     val context = LocalContext.current
     val startSettingsActivity by viewModel.startSettingsActivityEvent.collectAsState()
     val startAddNewControllerActivity by viewModel.startAddNewControllerEvent.collectAsState()
+    val fontColor by viewModel.fontColor.collectAsState()
+    val bodyColor by viewModel.bodyColor.collectAsState()
 
 
 
@@ -110,7 +112,7 @@ fun MainScreen(viewModel: MainActivityViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize()
             ) {
-                Text(text = "Hello, Android!", color = viewModel.getColor('f'))
+                Text(text = "Hello, Android!", color = fontColor)
             }
 
             // Button in the bottom-right corner
@@ -125,7 +127,7 @@ fun MainScreen(viewModel: MainActivityViewModel) {
                         viewModel.startAddMicrocontrollerActivity()
                     },
                     modifier = Modifier
-                        .background(viewModel.getColor('b')),
+                        .background(bodyColor),
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.baseline_add_circle_outline_24),
@@ -147,10 +149,15 @@ fun MainScreen(viewModel: MainActivityViewModel) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(viewModel: MainActivityViewModel) {
+    val topBarColor by viewModel.topBarColor.collectAsState()
+    val fontColor   by viewModel.fontColor.collectAsState()
+
+
+
     TopAppBar(
         title = { Text(stringResource(R.string.app_name),
             style = MaterialTheme.run { typography.headlineLarge.copy(fontWeight = FontWeight.Bold)}, //Kümmert sich um die Schriftart.
-            color = viewModel.getColor('f'))
+            color = fontColor)
         },
 
         //Actions, inklusive des Dropdownmenü
@@ -182,9 +189,9 @@ fun AppTopBar(viewModel: MainActivityViewModel) {
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = viewModel.getColor('t'),
-            titleContentColor = viewModel.getColor('f'),
-            actionIconContentColor = viewModel.getColor('f')
+            containerColor = topBarColor,
+            titleContentColor = fontColor,
+            actionIconContentColor = fontColor
         )
     )
 }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.runtime.mutableStateOf
 import com.myenvironmentals.models.settings.IReadSettings
+import com.myenvironmentals.ui.theme.*
 
 
 
@@ -23,6 +24,22 @@ class MainActivityViewModel (private val iReadSettings: IReadSettings): ViewMode
     val startSettingsActivityEvent: StateFlow<Boolean> = _startSettingsActivityEvent
     private val _startAddNewControllerEvent            = MutableStateFlow(false)
     val startAddNewControllerEvent: StateFlow<Boolean> = _startAddNewControllerEvent
+    private val _topBarColor                           = MutableStateFlow(TopBarDark)
+    val topBarColor : StateFlow<Color>                 = _topBarColor
+    private val _bodyColor                             = MutableStateFlow(BodyDark)
+    val bodyColor : StateFlow<Color>                   = _bodyColor
+    private val _fontColor                             = MutableStateFlow(White)
+    val fontColor : StateFlow<Color>                   = _fontColor
+
+
+
+
+
+    init {
+        _topBarColor.value = this.getColor('t')
+        _bodyColor.value   = this.getColor('b')
+        _fontColor.value   = this.getColor('f')
+    }
 
 
 
@@ -60,7 +77,7 @@ class MainActivityViewModel (private val iReadSettings: IReadSettings): ViewMode
 
 
 
-    @Composable
+
     fun getColor(position: Char): Color
     {
         return iReadSettings.getColor(position)

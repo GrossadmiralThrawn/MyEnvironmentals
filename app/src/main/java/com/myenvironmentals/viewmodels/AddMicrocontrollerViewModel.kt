@@ -7,6 +7,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.myenvironmentals.models.connections.IConnection
 import com.myenvironmentals.models.settings.IReadSettings
+import com.myenvironmentals.ui.theme.BodyDark
+import com.myenvironmentals.ui.theme.TopBarDark
+import com.myenvironmentals.ui.theme.White
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -16,6 +19,21 @@ import kotlinx.coroutines.flow.StateFlow
 class AddMicrocontrollerViewModel(private val iReadSettings: IReadSettings): ViewModel() {
     private val _startConnectionAnimationEvent            = MutableStateFlow(false)
     val startConnectionAnimationEvent: StateFlow<Boolean> = _startConnectionAnimationEvent
+    private val _topBarColor                           = MutableStateFlow(TopBarDark)
+    val topBarColor : StateFlow<Color>                 = _topBarColor
+    private val _bodyColor                             = MutableStateFlow(BodyDark)
+    val bodyColor : StateFlow<Color>                   = _bodyColor
+    private val _fontColor                             = MutableStateFlow(White)
+    val fontColor : StateFlow<Color>                   = _fontColor
+
+
+
+
+    init {
+        _topBarColor.value = this.getColor('t')
+        _bodyColor.value   = this.getColor('b')
+        _fontColor.value   = this.getColor('f')
+    }
 
 
 
