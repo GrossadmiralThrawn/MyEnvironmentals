@@ -106,7 +106,7 @@ fun MainScreen(viewModel: MainActivityViewModel) {
                 .fillMaxSize()
                 .background(viewModel.getColor('b'))
         ) {
-            // Main content in the center
+            // Main content in the center, everything is setted under the previous element (vertial)
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
