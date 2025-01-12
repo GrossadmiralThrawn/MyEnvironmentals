@@ -27,6 +27,7 @@ class AddMicrocontrollerViewModel(private val iReadSettings: IReadSettings) : Vi
     val bodyColor: StateFlow<Color> = _bodyColor
     private val _fontColor = MutableStateFlow(White)
     val fontColor: StateFlow<Color> = _fontColor
+    private lateinit var iConnection: IConnection
 
 
 
@@ -55,5 +56,16 @@ class AddMicrocontrollerViewModel(private val iReadSettings: IReadSettings) : Vi
 
     fun navigateToConnectionScreen(iConnection: IConnection) {
         _navigateToConnectionScreen.value = iConnection
+    }
+
+
+    fun setConnectionType(iConnection: IConnection) {
+        this.iConnection = iConnection
+    }
+
+
+
+    fun getConnectionType(): IConnection {
+        return iConnection
     }
 }

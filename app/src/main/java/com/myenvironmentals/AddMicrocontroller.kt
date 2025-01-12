@@ -89,7 +89,8 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
 
     // Prüft, ob die Navigation zu einer anderen Bildschirm erforderlich ist
     if (navigateToConnection != null) {
-        ConnectionScreen(navigateToConnection!!) // Zeigt den Verbindungsscreen an
+        viewModel.setConnectionType(navigateToConnection!!)
+        ConnectionScreen(viewModel) // Zeigt den Verbindungsscreen an
         return //Beendet die Activity, wenn man von ConnectionScreen zurückkehrt.
     }
 

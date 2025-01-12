@@ -12,18 +12,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.myenvironmentals.models.connections.IConnection
 import com.myenvironmentals.models.settings.IReadSettings
+import com.myenvironmentals.viewmodels.AddMicrocontrollerViewModel
 
 
 
 
 @Composable
-fun ConnectionScreen(iConnection: IConnection)
+fun ConnectionScreen(addMicrocontrollerViewModel: AddMicrocontrollerViewModel)
 {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(text = "Verbindung: ${iConnection::class.simpleName}")
+        Text(text = "Verbindung: ${addMicrocontrollerViewModel.getConnectionType()::class.simpleName}")
     }
 }
