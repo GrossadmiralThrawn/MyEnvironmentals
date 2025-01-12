@@ -8,9 +8,7 @@ package com.myenvironmentals
 
 
 
-
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,7 +17,6 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import com.myenvironmentals.models.connections.WLANConnection
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,32 +31,40 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter.Companion.tint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.myenvironmentals.models.connections.NFCConnection
+import com.myenvironmentals.models.connections.WLANConnection
 import com.myenvironmentals.models.settings.StandardSettingsReader
 import com.myenvironmentals.ui.theme.MyEnvironmentalsTheme
 import com.myenvironmentals.viewmodels.AddMicrocontrollerViewModel
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.ColorFilter.Companion.tint
-import androidx.compose.ui.text.font.FontWeight
 
 
 
 
 class AddMicrocontroller : ComponentActivity() {
+    // Lifecycle-Methode, die aufgerufen wird, wenn die Activity erstellt wird
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Aktiviert Edge-to-Edge-Darstellung
         enableEdgeToEdge()
+
+        // Setzt die Benutzeroberfläche mit Jetpack Compose
         setContent {
+            // Wendet ein benutzerdefiniertes Design auf die gesamte Oberfläche an
             MyEnvironmentalsTheme {
+                // Ruft die Haupt-Composable auf, die den gesamten Inhalt enthält
                 ConnectionTypeSelection(
                     this,
                     AddMicrocontrollerViewModel(StandardSettingsReader(this))
@@ -72,133 +77,92 @@ class AddMicrocontroller : ComponentActivity() {
 
 
 
+// Haupt-UI-Element, das die Verbindungstypauswahl anzeigt
 @Composable
 fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewModel) {
-    val startAnimation by viewModel.startConnectionAnimationEvent.collectAsState()
+    // Beobachtet Änderungen in ViewModel-Daten
     val fontColor by viewModel.fontColor.collectAsState()
     val bodyColor by viewModel.bodyColor.collectAsState()
+    val navigateToConnection by viewModel.navigateToConnectionScreen.collectAsState()
 
 
 
-
-    LaunchedEffect(startAnimation) {
-        val intent = Intent(context, PlaceholderActivity::class.java)
-
-
-
-        if (startAnimation) {
-            val wlanConnection = WLANConnection()
-
-
-
-            viewModel.setConnectionType(wlanConnection)
-            context.startActivity(intent)
-            viewModel.connectionAnimation()
-        }
+    // Prüft, ob die Navigation zu einer anderen Bildschirm erforderlich ist
+    if (navigateToConnection != null) {
+        ConnectionScreen(navigateToConnection!!) // Zeigt den Verbindungsscreen an
+        return //Beendet die Activity, wenn man von ConnectionScreen zurückkehrt.
     }
 
 
 
-
+    // Scaffold ist ein Layout, das häufig für die Grundstruktur einer Seite verwendet wird
     Scaffold(
-        topBar = {
-            AppTopBar(viewModel)
-        },
+        topBar = { AppTopBar(viewModel) }, // Definiert die obere App-Leiste
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
+        // Vertikale Anordnung der Elemente auf der Seite
         Column(
             modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .background(bodyColor), // Correct background modifier usage
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+                .padding(innerPadding) // Innenabstände
+                .fillMaxSize() // Füllt die gesamte Größe
+                .background(bodyColor), // Dynamische Hintergrundfarbe
+            horizontalAlignment = Alignment.CenterHorizontally, // Zentriert horizontal
+            verticalArrangement = Arrangement.Top // Beginnt oben
         ) {
-            //Spacer für Abstände
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.padding(16.dp)) // Abstandshalter
 
-            //Überschrift
+
+            //Überschrift für den Bildschirm
             Text(
                 text = stringResource(R.string.types_of_connection),
-                style = MaterialTheme.run {
-                    typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                color = fontColor
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontWeight = FontWeight.Bold
+                ),
+                color = fontColor // Dynamische Schriftfarbe
             )
 
-            Spacer(modifier = Modifier.padding(32.dp))
 
-            //Buttons mit Bildern umd die Verbindungsart auszuwählen.
-            TextButton (
-                onClick = {
-                    viewModel.connectionAnimation()
-                },
-                modifier = Modifier
-                    .background(viewModel.getColor('b')),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_network_wifi_3_bar_24), // Replace with your drawable resource
-                    contentDescription = "Image Button",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(64.dp),
-                    colorFilter = tint(viewModel.getColor('f')) // Wende die Farbe dynamisch an
-                )
-            }
-            Text(text = "WLAN",
-                color = fontColor,
-                modifier = Modifier.clickable {
-                    viewModel.connectionAnimation()
-                },
+            Spacer(modifier = Modifier.padding(24.dp)) // Abstandshalter
+
+
+            // Buttons für verschiedene Verbindungstypen
+            ConnectionButton(
+                iconRes = R.drawable.baseline_network_wifi_3_bar_24, // WLAN-Symbol
+                label = "WLAN", // Beschriftung
+                fontColor = fontColor, // Dynamische Schriftfarbe
+                bodyColor = bodyColor, // Dynamische Hintergrundfarbe
+                onClick = { viewModel.navigateToConnectionScreen(WLANConnection()) } //Aktion bei Klick
+            )
+
+            Spacer(modifier = Modifier.padding(16.dp)) // Abstandshalter
+
+            // Weitere Verbindungstypen (NFC, Bluetooth, Cloud) werden ähnlich definiert
+            ConnectionButton(
+                iconRes = R.drawable.baseline_contactless_24,
+                label = "NFC",
+                fontColor = fontColor,
+                bodyColor = bodyColor,
+                onClick = { viewModel.navigateToConnectionScreen(NFCConnection())}
             )
 
             Spacer(modifier = Modifier.padding(16.dp))
 
-            TextButton (
-                onClick = {
-                    viewModel.connectionAnimation()
-                },
-                modifier = Modifier
-                    .background(viewModel.getColor('b')),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_contactless_24), // Replace with your drawable resource
-                    contentDescription = "Image Button",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(64.dp),
-                    colorFilter = tint(fontColor) // Wende die Farbe dynamisch an
-                )
-            }
-            Text(text = "NFC",
-                color = fontColor,
-                modifier = Modifier.clickable {
-                    viewModel.connectionAnimation()
-                },
+            ConnectionButton(
+                iconRes = R.drawable.baseline_bluetooth_24,
+                label = "Bluetooth",
+                fontColor = fontColor,
+                bodyColor = bodyColor,
+                onClick = { viewModel.navigateToConnectionScreen(NFCConnection())}
             )
 
             Spacer(modifier = Modifier.padding(16.dp))
 
-            TextButton (
-                onClick = {
-                    viewModel.connectionAnimation()
-                },
-                modifier = Modifier
-                    .background(bodyColor),
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.baseline_bluetooth_24), // Replace with your drawable resource
-                    contentDescription = "Image Button",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(64.dp),
-                    colorFilter = tint(fontColor) // Wende die Farbe dynamisch an
-                )
-            }
-            Text(text = "Bluetooth",
-                color = fontColor,
-                modifier = Modifier.clickable {
-                    viewModel.connectionAnimation()
-                },
+            ConnectionButton(
+                iconRes = R.drawable.baseline_cloud_queue_24,
+                label = "Cloud",
+                fontColor = fontColor,
+                bodyColor = bodyColor,
+                onClick = { viewModel.navigateToConnectionScreen(NFCConnection()) }
             )
         }
     }
@@ -207,26 +171,31 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
 
 
 
+//Definiert die obere Leiste der App
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar(viewModel: AddMicrocontrollerViewModel)
-{
+fun AppTopBar(viewModel: AddMicrocontrollerViewModel) {
+    // Beobachtet Änderungen in ViewModel-Daten
     val topBarColor by viewModel.topBarColor.collectAsState()
-    val fontColor   by viewModel.fontColor.collectAsState()
-    val bodyColor   by viewModel.bodyColor.collectAsState()
+    val fontColor by viewModel.fontColor.collectAsState()
+    val bodyColor by viewModel.bodyColor.collectAsState()
 
 
 
+    // TopAppBar zeigt die Leiste am oberen Bildschirmrand
     TopAppBar(
         title = {
             Text(
-            stringResource(R.string.title_activity_add_microcontroller),
-            style = MaterialTheme.run { typography.headlineLarge.copy(fontWeight = FontWeight.Bold) }
-        ) },
+                text = stringResource(R.string.title_activity_add_microcontroller), // Titel
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = topBarColor,
-            titleContentColor = fontColor,
-            actionIconContentColor = bodyColor,
+            containerColor = topBarColor, // Farbe der Leiste
+            titleContentColor = fontColor, // Farbe des Titels
+            actionIconContentColor = bodyColor // Farbe der Symbole
         )
     )
 }
@@ -234,23 +203,46 @@ fun AppTopBar(viewModel: AddMicrocontrollerViewModel)
 
 
 
+// Wiederverwendbare Composable für die Verbindungstyp-Buttons
+@Composable
+fun ConnectionButton(
+    iconRes: Int, // Ressourcen-ID des Symbols
+    label: String, // Beschriftung
+    fontColor: androidx.compose.ui.graphics.Color, // Schriftfarbe
+    bodyColor: androidx.compose.ui.graphics.Color, // Hintergrundfarbe
+    onClick: () -> Unit // Klickaktion
+) {
+    TextButton(
+        onClick = onClick,
+        modifier = Modifier.background(bodyColor), // Hintergrundfarbe des Buttons
+    ) {
+        Image(
+            painter = painterResource(id = iconRes), // Lädt das Symbol
+            contentDescription = label, // Beschreibung für Barrierefreiheit
+            contentScale = ContentScale.Crop, // Skaliert das Bild
+            modifier = Modifier.size(64.dp), // Größe des Symbols
+            colorFilter = tint(fontColor) // Farbe des Symbols
+        )
+    }
+    Text(
+        text = label, // Beschriftung des Buttons
+        color = fontColor, // Dynamische Schriftfarbe
+        modifier = Modifier.clickable(onClick = onClick), // Klickbarer Text
+    )
+}
 
 
 
 
-
-
+// Vorschau für die UI in der Entwicklungsumgebung
 @Preview(showBackground = true)
 @Composable
 fun AddMicrocontrollerPreview() {
     MyEnvironmentalsTheme {
         ConnectionTypeSelection(
             LocalContext.current,
-            AddMicrocontrollerViewModel
-            (
-                StandardSettingsReader(
-                    LocalContext.current
-                )
+            AddMicrocontrollerViewModel(
+                StandardSettingsReader(LocalContext.current)
             )
         )
     }

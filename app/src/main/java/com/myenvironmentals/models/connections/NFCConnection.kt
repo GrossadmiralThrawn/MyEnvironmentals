@@ -4,20 +4,13 @@ package com.myenvironmentals.models.connections
 
 
 
-import android.content.Context
 import android.nfc.NfcAdapter
 
 
 
 
-class NFCConnection (private val context: Context): IConnection {
+class NFCConnection (): IConnection {
     private var nfcAdapter: NfcAdapter? = null
-
-
-
-    init {
-        nfcAdapter = NfcAdapter.getDefaultAdapter(context)
-    }
 
 
 

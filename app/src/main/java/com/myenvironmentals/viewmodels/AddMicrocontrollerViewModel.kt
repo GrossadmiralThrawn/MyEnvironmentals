@@ -16,23 +16,24 @@ import kotlinx.coroutines.flow.StateFlow
 
 
 
-class AddMicrocontrollerViewModel(private val iReadSettings: IReadSettings): ViewModel() {
-    private val _startConnectionAnimationEvent            = MutableStateFlow(false)
-    val startConnectionAnimationEvent: StateFlow<Boolean> = _startConnectionAnimationEvent
-    private val _topBarColor                           = MutableStateFlow(TopBarDark)
-    val topBarColor : StateFlow<Color>                 = _topBarColor
-    private val _bodyColor                             = MutableStateFlow(BodyDark)
-    val bodyColor : StateFlow<Color>                   = _bodyColor
-    private val _fontColor                             = MutableStateFlow(White)
-    val fontColor : StateFlow<Color>                   = _fontColor
-
+// ViewModel Erweiterung
+class AddMicrocontrollerViewModel(private val iReadSettings: IReadSettings) : ViewModel() {
+    private val _startConnectionAnimationEvent = MutableStateFlow(false)
+    private val _navigateToConnectionScreen = MutableStateFlow<IConnection?>(null)
+    val navigateToConnectionScreen: StateFlow<IConnection?> = _navigateToConnectionScreen
+    private val _topBarColor = MutableStateFlow(TopBarDark)
+    val topBarColor: StateFlow<Color> = _topBarColor
+    private val _bodyColor = MutableStateFlow(BodyDark)
+    val bodyColor: StateFlow<Color> = _bodyColor
+    private val _fontColor = MutableStateFlow(White)
+    val fontColor: StateFlow<Color> = _fontColor
 
 
 
     init {
         _topBarColor.value = this.getColor('t')
-        _bodyColor.value   = this.getColor('b')
-        _fontColor.value   = this.getColor('f')
+        _bodyColor.value = this.getColor('b')
+        _fontColor.value = this.getColor('f')
     }
 
 
@@ -45,16 +46,14 @@ class AddMicrocontrollerViewModel(private val iReadSettings: IReadSettings): Vie
 
 
 
-    fun connectionAnimation()
-    {
+    fun connectionAnimation() {
         _startConnectionAnimationEvent.value = !_startConnectionAnimationEvent.value
     }
 
 
 
 
-    fun setConnectionType(iConnection: IConnection)
-    {
-
+    fun navigateToConnectionScreen(iConnection: IConnection) {
+        _navigateToConnectionScreen.value = iConnection
     }
 }
