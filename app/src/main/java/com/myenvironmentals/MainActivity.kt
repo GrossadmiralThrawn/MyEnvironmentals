@@ -93,7 +93,16 @@ fun MainScreen(viewModel: MainActivityViewModel) {
     }
 
 
-    //"Körper" der UI.
+    //"Körper" der UI, ähnlich zu Column oder Row.
+    /*Standardisierte Struktur: Scaffold ist speziell für Layouts konzipiert,
+      die wiederkehrende UI-Elemente haben, wie z. B. eine TopAppBar, BottomBar,
+      oder Snackbar. Es sorgt dafür, dass diese Elemente richtig positioniert sind
+      und der übrige verfügbare Platz sinnvoll genutzt wird.
+      Anpassung der Abstände: Es berücksichtigt automatisch die inneren Abstände
+      (innerPadding), damit der Inhalt nicht mit der TopBar, NavigationBar oder anderen
+      Komponenten kollidiert.
+      Integration von Material Design: Scaffold ist Teil von MaterialTheme und erleichtert
+      dir die Implementierung von Material-Komponenten. */
     Scaffold(
         topBar = {
             AppTopBar(viewModel)
