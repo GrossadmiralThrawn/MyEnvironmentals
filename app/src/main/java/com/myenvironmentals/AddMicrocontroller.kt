@@ -132,7 +132,7 @@ fun ConnectionTypeSelection(context: Context, viewModel: AddMicrocontrollerViewM
                 label = "WLAN", // Beschriftung
                 fontColor = fontColor, // Dynamische Schriftfarbe
                 bodyColor = bodyColor, // Dynamische Hintergrundfarbe
-                onClick = { viewModel.navigateToConnectionScreen(WLANConnection()) } //Aktion bei Klick
+                onClick = { viewModel.navigateToConnectionScreen(WLANConnection(context)) } //Aktion bei Klick
             )
 
             Spacer(modifier = Modifier.padding(16.dp)) // Abstandshalter

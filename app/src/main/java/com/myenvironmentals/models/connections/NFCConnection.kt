@@ -5,13 +5,14 @@ package com.myenvironmentals.models.connections
 
 
 import android.nfc.NfcAdapter
-
-
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 
 class NFCConnection (): IConnection {
     private var nfcAdapter: NfcAdapter? = null
-
+    private val nfcOn = MutableStateFlow(false)
+    override val connectionStatus: StateFlow<Boolean> = nfcOn
 
 
 

@@ -25,6 +25,7 @@ fun ConnectionScreen(addMicrocontrollerViewModel: AddMicrocontrollerViewModel)
 {
     val fontColor by addMicrocontrollerViewModel.fontColor.collectAsState()
     val bodyColor by addMicrocontrollerViewModel.bodyColor.collectAsState()
+    val connectionStatus by addMicrocontrollerViewModel.connectionStatus.collectAsState()
 
 
 
@@ -33,6 +34,7 @@ fun ConnectionScreen(addMicrocontrollerViewModel: AddMicrocontrollerViewModel)
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize().background(bodyColor)
     ) {
-        Text(text = "Verbindung: ${addMicrocontrollerViewModel.getConnectionType()::class.simpleName}", color = fontColor)
+        Text(text = "Verbindungstyp: ${addMicrocontrollerViewModel.getConnectionType()::class.simpleName}", color = fontColor)
+        Text(text = "Verbindung: $connectionStatus", color = fontColor)
     }
 }
