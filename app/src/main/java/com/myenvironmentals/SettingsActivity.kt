@@ -202,7 +202,7 @@ fun SettingsActivityUI(modifier: Modifier, settingViewModel: SettingViewModel) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun SettingsActivityPreview() {
     val context = LocalContext.current
     val viewModel = SettingViewModel(context)
     MyEnvironmentalsTheme {

@@ -11,4 +11,5 @@
     <string name="enable_system_mode">Enable system mode</string>
     <string name="title_activity_placeholder">PlaceholderActivity</string>
     <string name="types_of_connection">Types of connection</string>
+    <string name="title_activity_select_connection_source_type">SelectConnectionSourceType</string>
 </resources>
