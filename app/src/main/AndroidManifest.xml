@@ -16,11 +16,6 @@
         android:theme="@style/Theme.MyEnvironmentals"
         tools:targetApi="31">
         <activity
-            android:name=".SelectConnectionSourceType"
-            android:exported="false"
-            android:label="@string/title_activity_select_connection_source_type"
-            android:theme="@style/Theme.MyEnvironmentals" />
-        <activity
             android:name=".AddMicrocontroller"
             android:exported="false"
             android:label="@string/title_activity_add_microcontroller"

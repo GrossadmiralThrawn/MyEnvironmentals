@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="settings">Settings</string>
-    <string name="add_environmental">Add microcontroller</string>
+    <string name="settings">Einstellungen</string>
+    <string name="add_environmental">Mikrocontroller hinzufügen</string>
     <string name="title_activity_add_microcontroller">Add Microcontroller</string>
-    <string name="primary_settings">Primary Settings</string>
-    <string name="theme">Theme</string>
-    <string name="enable_notifications">Enable Notifications</string>
-    <string name="enable_dark_mode">Enable dark mode</string>
-    <string name="enable_system_mode">Enable system mode</string>
-    <string name="title_activity_placeholder">PlaceholderActivity</string>
-    <string name="types_of_connection">Types of connection</string>
+    <string name="primary_settings">Primäreinstellungen</string>
+    <string name="theme">Thema</string>
+    <string name="enable_notifications">Benachrichtigunen aktivieren</string>
+    <string name="enable_dark_mode">Aktiviere Darkmode</string>
+    <string name="enable_system_mode">Verwende Systemmodus</string>
+    <string name="types_of_connection">Verbindungstypen</string>
+    <string name="local">Lokal</string>
+    <string name="relay_position">Position des Relais</string>
+
 </resources>
