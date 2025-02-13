@@ -11,6 +11,7 @@
     <string name="enable_system_mode">Enable system mode</string>
     <string name="types_of_connection">Types of connection</string>
     <string name="title_activity_select_connection_source_type">SelectConnectionSourceType</string>
-    <string name="local">Local</string>
     <string name="relay_position">Position of the relay</string>
+    <string name="local">Local</string>
+    <string name="distant_connection">Public</string>
 </resources>

@@ -43,7 +43,7 @@ class AddMicrocontroller : ComponentActivity() {
 
 @Composable
 fun AddController(viewModel: ConnectionViewModel, modifier: Modifier = Modifier) {
-    SelectConnectionSourceScreen(viewModel, modifier)
+    SelectConnectionSourceScreen(viewModel)
 }
 
 

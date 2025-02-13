@@ -12,5 +12,6 @@
     <string name="types_of_connection">Verbindungstypen</string>
     <string name="local">Lokal</string>
     <string name="relay_position">Position des Relais</string>
+    <string name="distant_connection">Öffentlich</string>
 
 </resources>

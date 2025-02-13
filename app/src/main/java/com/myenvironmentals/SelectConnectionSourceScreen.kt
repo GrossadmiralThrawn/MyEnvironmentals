@@ -5,12 +5,12 @@ package com.myenvironmentals
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +20,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter.Companion.tint
 import androidx.compose.ui.layout.ContentScale
@@ -34,29 +35,26 @@ import com.myenvironmentals.viewmodels.ConnectionViewModel
 
 
 @Composable
-fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel, modifier: Modifier)
-{
-    val topBarColor by connectionViewModel.topBarColor.collectAsState()
+fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel) {
     val fontColor by connectionViewModel.fontColor.collectAsState()
     val bodyColor by connectionViewModel.bodyColor.collectAsState()
 
-
-
-    Scaffold (
+    Scaffold(
         modifier = Modifier.fillMaxSize(),
     ) { innerPadding ->
-        Column (
+        Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(bodyColor)
-            )
-        {
+                .background(bodyColor),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Überschrift oben zentriert
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp), // Abstand zum oberen Rand
-                contentAlignment = androidx.compose.ui.Alignment.Center // Zentriert den Inhalt horizontal
+                    .padding(top = 32.dp),
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = stringResource(R.string.relay_position),
@@ -65,9 +63,7 @@ fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel, modif
                 )
             }
 
-
-            Spacer(modifier = modifier.padding(16.dp))
-
+            Spacer(modifier = Modifier.padding(50.dp)) //Regelt abstand zwischen Elemten.
 
             ConnectionButton(
                 bodyColor = bodyColor,
@@ -76,41 +72,53 @@ fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel, modif
                 label = R.string.local,
                 onClick = { connectionViewModel.navigateToConnectionScreen(ExampleConnection()) }
             )
+
+
+            Spacer(modifier = Modifier.padding(16.dp)) //Regelt abstand zwischen Elemten.
+
+
+            ConnectionButton(
+                bodyColor = bodyColor,
+                fontColor = fontColor,
+                iconRes = R.drawable.baseline_cloud_24,
+                label = R.string.local,
+                onClick = { connectionViewModel.navigateToConnectionScreen(ExampleConnection()) }
+            )
         }
     }
-
-
-
-    Spacer(modifier = Modifier.padding(16.dp))
 }
 
 
 
 
-// Wiederverwendbare Composable für die Verbindungstyp-Buttons
+// Wiederverwendbarer Composable für die Verbindungstyp-Buttons
 @Composable
 fun ConnectionButton(
-    iconRes: Int, // Ressourcen-ID des Symbols
-    label: Int, // Beschriftung
-    fontColor: androidx.compose.ui.graphics.Color, // Schriftfarbe
-    bodyColor: androidx.compose.ui.graphics.Color, // Hintergrundfarbe
-    onClick: () -> Unit // Klickaktion
+    iconRes: Int,
+    label: Int,
+    fontColor: androidx.compose.ui.graphics.Color,
+    bodyColor: androidx.compose.ui.graphics.Color,
+    onClick: () -> Unit
 ) {
-    TextButton(
-        onClick = onClick,
-        modifier = Modifier.background(bodyColor), // Hintergrundfarbe des Buttons
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = iconRes), // Lädt das Symbol
-            contentDescription = label.toString(), // Beschreibung für Barrierefreiheit
-            contentScale = ContentScale.Crop, // Skaliert das Bild
-            modifier = Modifier.size(64.dp), // Größe des Symbols
-            colorFilter = tint(fontColor) // Farbe des Symbols
+        TextButton(
+            onClick = onClick,
+            modifier = Modifier.background(bodyColor)
+        ) {
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = stringResource(id = label),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(64.dp),
+                colorFilter = tint(fontColor)
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = stringResource(id = label),
+            color = fontColor
         )
     }
-    Text(
-        text = stringResource(id = label), // Richtige Zuordnung des Textes
-        color = fontColor, // Dynamische Schriftfarbe
-        modifier = Modifier.clickable(onClick = onClick), // Klickbarer Text
-    )
 }
