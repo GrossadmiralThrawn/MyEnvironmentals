@@ -1,4 +1,4 @@
-package com.myenvironmentals
+package com.myenvironmentals.screens
 
 
 
@@ -22,22 +22,25 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter.Companion.tint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
-import com.myenvironmentals.models.connections.ExampleConnection
+import com.myenvironmentals.R
+import com.myenvironmentals.SettingsActivityBody
 import com.myenvironmentals.viewmodels.ConnectionViewModel
-
-
+import com.myenvironmentals.viewmodels.SettingViewModel
 
 
 @Composable
 fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel) {
     val fontColor by connectionViewModel.fontColor.collectAsState()
     val bodyColor by connectionViewModel.bodyColor.collectAsState()
+    val selectedScreen by connectionViewModel.selectedScreen.collectAsState()
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -49,43 +52,58 @@ fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel) {
                 .background(bodyColor),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Überschrift oben zentriert
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(R.string.relay_position),
-                    color = fontColor,
-                    style = MaterialTheme.typography.headlineLarge.copy(fontWeight = Bold)
-                )
-            }
-
-            Spacer(modifier = Modifier.padding(50.dp)) //Regelt abstand zwischen Elemten.
-
-            ConnectionButton(
-                bodyColor = bodyColor,
-                fontColor = fontColor,
-                iconRes = R.drawable.baseline_add_location_alt_24,
-                label = R.string.local,
-                onClick = { connectionViewModel.navigateToConnectionScreen(ExampleConnection()) }
-            )
-
-
-            Spacer(modifier = Modifier.padding(16.dp)) //Regelt abstand zwischen Elemten.
-
-
-            ConnectionButton(
-                bodyColor = bodyColor,
-                fontColor = fontColor,
-                iconRes = R.drawable.baseline_cloud_24,
-                label = R.string.local,
-                onClick = { connectionViewModel.navigateToConnectionScreen(ExampleConnection()) }
-            )
+            SelectConnectionSourceBody(connectionViewModel = connectionViewModel)
+            selectedScreen()
         }
     }
+}
+
+
+
+
+@Composable
+fun SelectConnectionSourceBody(connectionViewModel: ConnectionViewModel) {
+    val fontColor by connectionViewModel.fontColor.collectAsState()
+    val bodyColor by connectionViewModel.bodyColor.collectAsState()
+    val selectedScreen by connectionViewModel.selectedScreen.collectAsState()
+
+
+
+    // Überschrift oben zentriert
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 40.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(R.string.relay_position),
+            color = fontColor,
+            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = Bold)
+        )
+    }
+
+    Spacer(modifier = Modifier.padding(80.dp)) //Regelt abstand zwischen Elemten.
+
+    ConnectionButton(
+        bodyColor = bodyColor,
+        fontColor = fontColor,
+        iconRes = R.drawable.baseline_add_location_alt_24,
+        label = R.string.local,
+        onClick = { connectionViewModel.selectPositionScreen('1') }
+    )
+
+
+    Spacer(modifier = Modifier.padding(40.dp)) //Regelt abstand zwischen Elemten.
+
+
+    ConnectionButton(
+        bodyColor = bodyColor,
+        fontColor = fontColor,
+        iconRes = R.drawable.baseline_cloud_24,
+        label = R.string.local,
+        onClick = { connectionViewModel.selectPositionScreen('2') }
+    )
 }
 
 
@@ -96,8 +114,8 @@ fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel) {
 fun ConnectionButton(
     iconRes: Int,
     label: Int,
-    fontColor: androidx.compose.ui.graphics.Color,
-    bodyColor: androidx.compose.ui.graphics.Color,
+    fontColor: Color,
+    bodyColor: Color,
     onClick: () -> Unit
 ) {
     Column(
