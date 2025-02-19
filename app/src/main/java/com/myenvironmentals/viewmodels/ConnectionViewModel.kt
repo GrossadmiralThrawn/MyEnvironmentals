@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 
 
-class ConnectionViewModel (private val context: Context){
+class ConnectionViewModel(private val context: Context) {
     private val iReadSettings: StandardSettingsReader = StandardSettingsReader(context)
     private val _topBarColor = MutableStateFlow(TopBarDark)
     val topBarColor: StateFlow<Color> = _topBarColor
@@ -24,35 +24,26 @@ class ConnectionViewModel (private val context: Context){
     val bodyColor: StateFlow<Color> = _bodyColor
     private val _fontColor = MutableStateFlow(White)
     val fontColor: StateFlow<Color> = _fontColor
-    private lateinit var iConnection: IConnection
-    private val _selectedScreen = MutableStateFlow<@Composable (() -> Unit)>({})
-    val selectedScreen: StateFlow<@Composable (() -> Unit)> = _selectedScreen
 
-
-
-
+    // Verwende einen String zur Steuerung der Navigation: "main", "local", "external"
+    private val _selectedScreen = MutableStateFlow("main")
+    val selectedScreen: StateFlow<String> = _selectedScreen
 
     init {
-        _topBarColor.value = this.getColor('t')
-        _bodyColor.value = this.getColor('b')
-        _fontColor.value = this.getColor('f')
+        _topBarColor.value = getColor('t')
+        _bodyColor.value = getColor('b')
+        _fontColor.value = getColor('f')
     }
-
-
-
 
     fun getColor(position: Char): Color {
         return iReadSettings.getColor(position)
     }
 
-
-
-
     fun selectPositionScreen(x: Char) {
         _selectedScreen.value = when (x) {
-            '1' -> { { LocalSourceScreen(this) } }
-            '2' -> { { ExternalSourceScreen( this) } }
-            else -> { { LocalSourceScreen(this) } }
+            '1' -> "local"
+            '2' -> "external"
+            else -> "main"
         }
     }
 }

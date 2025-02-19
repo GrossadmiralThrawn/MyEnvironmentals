@@ -18,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.myenvironmentals.R
 import com.myenvironmentals.SettingsActivityBody
 import com.myenvironmentals.viewmodels.ConnectionViewModel
@@ -36,15 +38,11 @@ import com.myenvironmentals.viewmodels.SettingViewModel
 
 
 @Composable
-fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel) {
-    val fontColor by connectionViewModel.fontColor.collectAsState()
+fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel, navController: NavController) {
     val bodyColor by connectionViewModel.bodyColor.collectAsState()
     val selectedScreen by connectionViewModel.selectedScreen.collectAsState()
 
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-    ) { innerPadding ->
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -52,22 +50,24 @@ fun SelectConnectionSourceScreen(connectionViewModel: ConnectionViewModel) {
                 .background(bodyColor),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SelectConnectionSourceBody(connectionViewModel = connectionViewModel)
-            selectedScreen()
+            // LaunchedEffect reagiert auf Zustandsänderungen und löst die Navigation aus
+            LaunchedEffect(selectedScreen) {
+                when (selectedScreen) {
+                    "local" -> navController.navigate("local")
+                    "external" -> navController.navigate("external")
+                    // "main" – hier wird die Hauptoberfläche angezeigt
+                }
+            }
+            if (selectedScreen == "main") {
+                SelectConnectionSourceBody(connectionViewModel)
+            }
         }
     }
 }
 
-
-
-
 @Composable
 fun SelectConnectionSourceBody(connectionViewModel: ConnectionViewModel) {
     val fontColor by connectionViewModel.fontColor.collectAsState()
-    val bodyColor by connectionViewModel.bodyColor.collectAsState()
-    val selectedScreen by connectionViewModel.selectedScreen.collectAsState()
-
-
 
     // Überschrift oben zentriert
     Box(
@@ -79,29 +79,27 @@ fun SelectConnectionSourceBody(connectionViewModel: ConnectionViewModel) {
         Text(
             text = stringResource(R.string.relay_position),
             color = fontColor,
-            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = Bold)
+            style = androidx.compose.material3.MaterialTheme.typography.headlineLarge.copy(fontWeight = Bold)
         )
     }
 
-    Spacer(modifier = Modifier.padding(80.dp)) //Regelt abstand zwischen Elemten.
+    Spacer(modifier = Modifier.padding(80.dp))
 
     ConnectionButton(
-        bodyColor = bodyColor,
-        fontColor = fontColor,
         iconRes = R.drawable.baseline_add_location_alt_24,
         label = R.string.local,
+        fontColor = fontColor,
+        bodyColor = connectionViewModel.bodyColor.collectAsState().value,
         onClick = { connectionViewModel.selectPositionScreen('1') }
     )
 
-
-    Spacer(modifier = Modifier.padding(40.dp)) //Regelt abstand zwischen Elemten.
-
+    Spacer(modifier = Modifier.padding(40.dp))
 
     ConnectionButton(
-        bodyColor = bodyColor,
-        fontColor = fontColor,
         iconRes = R.drawable.baseline_cloud_24,
-        label = R.string.local,
+        label = R.string.distant_connection,
+        fontColor = fontColor,
+        bodyColor = connectionViewModel.bodyColor.collectAsState().value,
         onClick = { connectionViewModel.selectPositionScreen('2') }
     )
 }
@@ -109,7 +107,7 @@ fun SelectConnectionSourceBody(connectionViewModel: ConnectionViewModel) {
 
 
 
-// Wiederverwendbarer Composable für die Verbindungstyp-Buttons
+//Wiederverwendbarer Composable für die Verbindungstyp-Buttons
 @Composable
 fun ConnectionButton(
     iconRes: Int,
