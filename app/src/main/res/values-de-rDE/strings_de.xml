@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="settings">Einstellungen</string>
+    <string name="add_environmental">Microcontroller hinzufügen</string>
+    <string name="title_activity_add_microcontroller">Microcontroller hinzufügen</string>
+    <string name="primary_settings">Primäreinstellungen</string>
+    <string name="theme">Thema</string>
+    <string name="enable_notifications">Benachrichtigungen aktivieren</string>
+    <string name="enable_dark_mode">Darkmode aktivieren</string>
+    <string name="enable_system_mode">Systemmodus aktivieren</string>
+    <string name="types_of_connection">Verbindungsarten</string>
+    <string name="title_activity_select_connection_source_type">Verbindungsursprung auswählen</string>
+    <string name="relay_position">Relaisposition</string>
+    <string name="local">Lokal</string>
+    <string name="distant_connection">Öffentlich</string>
+    <string name="locale_types_of_connection">Lokale Verbindungstypen</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="wlan">W-LAN</string>
+    <string name="connect">Verbinde…</string>
+    <string name="title_activity_select_controller_source">SelectControllerSourceActivity</string>
+    <string name="title_activity_connection">ConnectionActivity</string>
+    <string name="connected_to_wifi">Mit WLAN verbunden</string>
+
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name" translatable="false">MyEnvironmental</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="settings">Settings</string>
+    <string name="add_environmental">Add microcontroller</string>
+    <string name="title_activity_add_microcontroller">Add Microcontroller</string>
+    <string name="primary_settings">Primary Settings</string>
+    <string name="theme">Theme</string>
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="enable_dark_mode">Enable dark mode</string>
+    <string name="enable_system_mode">Enable system mode</string>
+    <string name="types_of_connection">Types of connection</string>
+    <string name="title_activity_select_connection_source_type">SelectConnectionSourceType</string>
+    <string name="relay_position">Position of the relay</string>
+    <string name="local">Local</string>
+    <string name="distant_connection">Public</string>
+    <string name="locale_types_of_connection">Locale types of connection</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="wlan">W-LAN</string>
+    <string name="connect">Connect…</string>
+    <string name="title_activity_select_controller_source">SelectControllerSourceActivity</string>
+    <string name="title_activity_connection">ConnectionActivity</string>
+    <string name="connected_to_wifi">Connected to WLAN</string>
+</resources>
