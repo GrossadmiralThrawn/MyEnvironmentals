@@ -61,6 +61,7 @@ class SelectControllerSourceActivity : ComponentActivity() {
 @Composable
 fun SelectControllerSourceScreen (viewModel: SelectControllerSourceViewModel)
 {
+    val context = LocalContext.current  // Richtigen Context holen
     val bodyColor by viewModel.bodyColor.collectAsState()
     val fontColor by viewModel.fontColor.collectAsState()
 
@@ -77,6 +78,8 @@ fun SelectControllerSourceScreen (viewModel: SelectControllerSourceViewModel)
             bodyColor = bodyColor,
             fontColor = fontColor,
             onClick = {
+                val intent = android.content.Intent(context, ConnectionActivity::class.java)
+                context.startActivity(intent) // Context ist jetzt korrekt!
             }
         )
     }

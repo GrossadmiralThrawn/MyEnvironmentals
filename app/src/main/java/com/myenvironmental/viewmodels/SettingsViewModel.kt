@@ -50,9 +50,13 @@ class SettingsViewModel(context: Context): ViewModel() {
     }
 
 
+
+
     fun toggleNotificationsEnabled(enabled: Boolean) {
         _notificationsEnabled.value = enabled
     }
+
+
 
 
     fun toggleDarkModeEnabled(enabled: Boolean) {
@@ -64,6 +68,8 @@ class SettingsViewModel(context: Context): ViewModel() {
             standardSettings.switchToLightMode()
         }
     }
+
+
 
 
     fun systemModeEnabled(enabled: Boolean) {
@@ -78,10 +84,14 @@ class SettingsViewModel(context: Context): ViewModel() {
     }
 
 
+
+
     @Composable
     fun getBackgroundColorTopBar(): Color {
         return standardSettings.getColor('t')
     }
+
+
 
 
     @Composable
@@ -98,6 +108,8 @@ class SettingsViewModel(context: Context): ViewModel() {
             else -> BodyLight // Light Mode
         }
     }
+
+
 
 
     @Composable

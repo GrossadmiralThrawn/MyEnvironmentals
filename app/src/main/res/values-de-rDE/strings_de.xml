@@ -20,6 +20,7 @@
     <string name="connect">Verbinde…</string>
     <string name="title_activity_select_controller_source">SelectControllerSourceActivity</string>
     <string name="title_activity_connection">ConnectionActivity</string>
-    <string name="connected_to_wifi">Mit WLAN verbunden</string>
+    <string name="connected">Verbunden</string>
+    <string name="connection_lost">Verbindung getrennt</string>
 
 </resources>

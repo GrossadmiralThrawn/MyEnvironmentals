@@ -39,4 +39,11 @@ class SelectControllerSourceViewModel @Inject constructor(private val iReadSetti
     {
         return iReadSettings.getColor(position)
     }
+
+
+
+
+    fun getIReadSettings(): IReadSettings {
+        return iReadSettings
+    }
 }
