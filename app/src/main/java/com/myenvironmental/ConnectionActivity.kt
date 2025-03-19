@@ -37,7 +37,9 @@ class ConnectionActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyEnvironmentalTheme {
-                Connect(ConnectionViewModel(StandardSettingReader(context = this), WiFiConnection(this), getString(R.string.connected), getString(R.string.connected)))
+                Connect(
+                    ConnectionViewModel(StandardSettingReader(context = this),
+                    WiFiConnection(this), getString(R.string.connected), getString(R.string.connection_lost)))
             }
         }
     }
@@ -52,8 +54,9 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
     val fontColor = connectionViewModel.fontColor.collectAsState()
     val connectionStatus = connectionViewModel.connectedToWiFi.collectAsState() // Verwende den richtigen Status-Text
     val isHighlighted = connectionViewModel.connectionColor.collectAsState() // Verwende den Status für die Farbe der Box
-    val backendConnected = connectionViewModel.backendConnected.collectAsState() // Verbindungsstatus als Boolean
 
+
+    
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
@@ -96,7 +99,7 @@ fun GreetingPreview2() {
     MyEnvironmentalTheme {
         Connect(ConnectionViewModel(StandardSettingReader(LocalContext.current), WiFiConnection(LocalContext.current),
             LocalContext.current.getString(R.string.connected),
-            LocalContext.current.getString(R.string.connected))
+            LocalContext.current.getString(R.string.connection_lost))
         )
     }
 }

@@ -4,11 +4,8 @@ package com.myenvironmental.viewmodels
 
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.myenvironmental.R
 import com.myenvironmental.models.connections.WiFiConnection
 import com.myenvironmental.models.settings.IReadSettings
 import com.myenvironmental.ui.theme.*
@@ -36,9 +33,6 @@ class ConnectionViewModel(
     val connectedToWiFi: StateFlow<String> = _connectedToWiFi
     private val _connectionColor = MutableStateFlow(BrightGreen)
     val connectionColor: StateFlow<Color> = _connectionColor
-    // Verwenden eines StateFlows für den Verbindungsstatus
-    private val _backendConnected = MutableStateFlow(wiFiConnection.connectionStatus)
-    val backendConnected: StateFlow<Boolean> = _backendConnected.value
 
 
 

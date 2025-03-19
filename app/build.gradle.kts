@@ -64,4 +64,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose) // Lifecycle support
     implementation(libs.androidx.lifecycle.viewmodel.compose) // ViewModel support
     implementation(libs.androidx.hilt.navigation.compose) // Hilt Navigation Compose
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.logging)
+
 }
