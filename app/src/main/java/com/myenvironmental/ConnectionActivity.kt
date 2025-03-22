@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -60,15 +59,17 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
     val connectionStatus = connectionViewModel.connectedToWiFi.collectAsState()
     val isHighlighted = connectionViewModel.connectionColor.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    var userInput by remember { mutableStateOf("") }
     var serverResponse by remember { mutableStateOf("") }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize()
-    ) { innerPadding ->
+
+
+    Box(
+        modifier = Modifier.fillMaxSize().background(bodyColor.value),
+        contentAlignment = Alignment.Center
+    ) {
         Box(
             modifier = Modifier
-                .padding(innerPadding)
+                .padding(0.dp)
                 .fillMaxSize()
                 .background(bodyColor.value)
         ) {
@@ -77,6 +78,11 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize()
             ) {
+                Box(
+                    modifier = Modifier
+                    .background(isHighlighted.value)
+                    .fillMaxWidth()
+                    .height(32.dp))
                 Box(
                     modifier = Modifier
                         .background(isHighlighted.value)
@@ -90,15 +96,6 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
-
-                BasicTextField(
-                    value = userInput,
-                    onValueChange = { userInput = it },
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                        .background(fontColor.value.copy(alpha = 0.1f))
-                )
 
                 Button(onClick = {
                     coroutineScope.launch {
@@ -119,7 +116,7 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview2() {
+fun ConnectPreview() {
     MyEnvironmentalTheme {
         Connect(ConnectionViewModel(StandardSettingReader(LocalContext.current), WiFiConnection(LocalContext.current, engine = OkHttp.create(), "https://www.purgomalum.com/service/json"),
             LocalContext.current.getString(R.string.connected),

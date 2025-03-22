@@ -1,22 +1,13 @@
 package com.myenvironmental
 
-
-
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,15 +19,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.myenvironmental.models.settings.StandardSettingReader
 import com.myenvironmental.ui.theme.MyEnvironmentalTheme
-import com.myenvironmental.viewmodels.MainActivityViewModel
 import com.myenvironmental.viewmodels.SelectControllerSourceViewModel
-import dagger.hilt.android.AndroidEntryPoint
 
 
 
@@ -47,41 +35,62 @@ class SelectControllerSourceActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val viewModel = SelectControllerSourceViewModel(StandardSettingReader(this))
+            val viewModel = SelectControllerSourceViewModel(StandardSettingReader(this)) // Assuming this viewModel initialization
             MyEnvironmentalTheme {
-                SelectControllerSourceScreen(viewModel)
+                SelectControllerSourceScreen(viewModel = viewModel)
             }
         }
     }
 }
 
-
-
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBarSelectSourceActivity(viewModel: SelectControllerSourceViewModel) {
+    TopAppBar(
+        title = {
+            Text(
+                stringResource(R.string.settings),
+                style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold)
+            )
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = viewModel.topBarColor.collectAsState().value,
+            titleContentColor = viewModel.fontColor.collectAsState().value,
+            actionIconContentColor = Color.White
+        )
+    )
+}
 
 @Composable
-fun SelectControllerSourceScreen (viewModel: SelectControllerSourceViewModel)
-{
-    val context = LocalContext.current  // Richtigen Context holen
+fun SelectControllerSourceScreen(viewModel: SelectControllerSourceViewModel) {
+    val context = LocalContext.current
     val bodyColor by viewModel.bodyColor.collectAsState()
     val fontColor by viewModel.fontColor.collectAsState()
 
+    Scaffold(
+        topBar = { TopBarSelectSourceActivity(viewModel) },
+        modifier = Modifier.fillMaxSize()
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(bodyColor), // bodyColor is assumed to be a Color
+            verticalArrangement = Arrangement.Center, // Correct placement for verticalArrangement
+            horizontalAlignment = Alignment.CenterHorizontally // Correct placement for horizontalAlignment
 
-
-    Box(
-        modifier = Modifier.fillMaxSize().background(bodyColor),
-        contentAlignment = Alignment.Center
-    )
-    {
-        ConnectionButton(
-            iconRes = R.drawable.baseline_wifi_24,
-            label = R.string.wlan,
-            bodyColor = bodyColor,
-            fontColor = fontColor,
-            onClick = {
-                val intent = android.content.Intent(context, ConnectionActivity::class.java)
-                context.startActivity(intent) // Context ist jetzt korrekt!
-            }
-        )
+        ){
+            ConnectionButton(
+                iconRes = R.drawable.baseline_wifi_24,
+                label = R.string.wlan,
+                bodyColor = bodyColor,
+                fontColor = fontColor,
+                onClick = {
+                    val intent = android.content.Intent(context, ConnectionActivity::class.java)
+                    context.startActivity(intent)
+                }
+            )
+        }
     }
 }
 
@@ -92,14 +101,14 @@ fun SelectControllerSourceScreen (viewModel: SelectControllerSourceViewModel)
 @Composable
 fun SelectControllerSourceScreenPreview() {
     MyEnvironmentalTheme {
-        SelectControllerSourceScreen(SelectControllerSourceViewModel(StandardSettingReader(LocalContext.current)))
+        val viewModel = SelectControllerSourceViewModel(StandardSettingReader(LocalContext.current)) // Provide a mock ViewModel if needed
+        SelectControllerSourceScreen(viewModel)
     }
 }
 
 
 
 
-//Wiederverwendbarer Composable für die Verbindungstyp-Buttons
 @Composable
 fun ConnectionButton(
     iconRes: Int,
