@@ -15,11 +15,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,6 +29,10 @@ import com.myenvironmental.models.connections.WiFiConnection
 import com.myenvironmental.models.settings.StandardSettingReader
 import com.myenvironmental.ui.theme.MyEnvironmentalTheme
 import com.myenvironmental.viewmodels.ConnectionViewModel
+import io.ktor.client.engine.okhttp.OkHttp
+import kotlinx.coroutines.launch
+
+
 
 
 class ConnectionActivity : ComponentActivity() {
@@ -39,7 +43,8 @@ class ConnectionActivity : ComponentActivity() {
             MyEnvironmentalTheme {
                 Connect(
                     ConnectionViewModel(StandardSettingReader(context = this),
-                    WiFiConnection(this), getString(R.string.connected), getString(R.string.connection_lost)))
+                    WiFiConnection(this, engine = OkHttp.create(), "https://www.purgomalum.com/service/json"
+                    ), getString(R.string.connected), getString(R.string.connection_lost)))
             }
         }
     }
@@ -52,11 +57,12 @@ class ConnectionActivity : ComponentActivity() {
 fun Connect(connectionViewModel: ConnectionViewModel) {
     val bodyColor = connectionViewModel.bodyColor.collectAsState()
     val fontColor = connectionViewModel.fontColor.collectAsState()
-    val connectionStatus = connectionViewModel.connectedToWiFi.collectAsState() // Verwende den richtigen Status-Text
-    val isHighlighted = connectionViewModel.connectionColor.collectAsState() // Verwende den Status für die Farbe der Box
+    val connectionStatus = connectionViewModel.connectedToWiFi.collectAsState()
+    val isHighlighted = connectionViewModel.connectionColor.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    var userInput by remember { mutableStateOf("") }
+    var serverResponse by remember { mutableStateOf("") }
 
-
-    
     Scaffold(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
@@ -69,22 +75,40 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
             Column(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
                 Box(
                     modifier = Modifier
                         .background(isHighlighted.value)
                         .padding(8.dp)
                         .fillMaxWidth()
-                        .height(32.dp)// Maximal 10% des Displays für die farbige Box
+                        .height(32.dp)
                 ) {
                     Text(
-                        text = connectionStatus.value, // Zeigt den Status an
-                        color = fontColor.value, // Farbe des Textes
-                        modifier = Modifier.align(Alignment.Center) // Zentriert den Text
+                        text = connectionStatus.value,
+                        color = fontColor.value,
+                        modifier = Modifier.align(Alignment.Center)
                     )
                 }
+
+                BasicTextField(
+                    value = userInput,
+                    onValueChange = { userInput = it },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                        .background(fontColor.value.copy(alpha = 0.1f))
+                )
+
+                Button(onClick = {
+                    coroutineScope.launch {
+                        serverResponse = connectionViewModel.fetchDataFromServer("Fuck World")
+                    }
+                }) {
+                    Text("Send Request")
+                }
+
+                Text(text = "Server Response: $serverResponse", modifier = Modifier.padding(16.dp), color = fontColor.value)
             }
         }
     }
@@ -97,9 +121,10 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
 @Composable
 fun GreetingPreview2() {
     MyEnvironmentalTheme {
-        Connect(ConnectionViewModel(StandardSettingReader(LocalContext.current), WiFiConnection(LocalContext.current),
+        Connect(ConnectionViewModel(StandardSettingReader(LocalContext.current), WiFiConnection(LocalContext.current, engine = OkHttp.create(), "https://www.purgomalum.com/service/json"),
             LocalContext.current.getString(R.string.connected),
-            LocalContext.current.getString(R.string.connection_lost))
+            LocalContext.current.getString(R.string.connection_lost),
+        )
         )
     }
 }

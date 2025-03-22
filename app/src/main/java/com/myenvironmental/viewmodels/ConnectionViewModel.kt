@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.myenvironmental.models.connections.WiFiConnection
+import com.myenvironmental.models.connections.errors.Result.Success
 import com.myenvironmental.models.settings.IReadSettings
 import com.myenvironmental.ui.theme.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,6 +67,17 @@ class ConnectionViewModel(
                     _connectionColor.value = ScarletRed
                 }
             }
+        }
+    }
+
+
+
+
+    suspend fun fetchDataFromServer(input: String): String {
+        return when (val result = wiFiConnection.sendAndReceive(input, null)) {
+            is Success -> result.data
+            is Error -> "Error: ${result.cause}"
+            else -> "Unknown error"
         }
     }
 }

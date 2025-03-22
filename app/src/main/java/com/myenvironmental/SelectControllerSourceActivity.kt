@@ -90,7 +90,7 @@ fun SelectControllerSourceScreen (viewModel: SelectControllerSourceViewModel)
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun SelectControllerSourceScreenPreview() {
     MyEnvironmentalTheme {
         SelectControllerSourceScreen(SelectControllerSourceViewModel(StandardSettingReader(LocalContext.current)))
     }
