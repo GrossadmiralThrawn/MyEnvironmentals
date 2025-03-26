@@ -43,6 +43,9 @@ class SelectControllerSourceActivity : ComponentActivity() {
     }
 }
 
+
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBarSelectSourceActivity(viewModel: SelectControllerSourceViewModel) {
@@ -75,7 +78,7 @@ fun SelectControllerSourceScreen(viewModel: SelectControllerSourceViewModel) {
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(bodyColor), // bodyColor is assumed to be a Color
+                .background(bodyColor),
             verticalArrangement = Arrangement.Center, // Correct placement for verticalArrangement
             horizontalAlignment = Alignment.CenterHorizontally // Correct placement for horizontalAlignment
 

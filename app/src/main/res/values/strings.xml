@@ -22,4 +22,6 @@
     <string name="title_activity_connection">ConnectionActivity</string>
     <string name="connected">Connected</string>
     <string name="connection_lost">Connection lost</string>
+    <string name="server_name">Server name</string>
+
 </resources>

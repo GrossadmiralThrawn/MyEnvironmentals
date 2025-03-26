@@ -11,17 +11,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.myenvironmental.models.connections.WiFiConnection
@@ -60,6 +62,7 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
     val isHighlighted = connectionViewModel.connectionColor.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     var serverResponse by remember { mutableStateOf("") }
+    var userInput by remember { mutableStateOf("") } // Speichert den Eingabetext
 
 
 
@@ -67,9 +70,9 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
         modifier = Modifier.fillMaxSize().background(bodyColor.value),
         contentAlignment = Alignment.Center
     ) {
+        //Kopfelement
         Box(
             modifier = Modifier
-                .padding(0.dp)
                 .fillMaxSize()
                 .background(bodyColor.value)
         ) {
@@ -82,7 +85,7 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
                     modifier = Modifier
                     .background(isHighlighted.value)
                     .fillMaxWidth()
-                    .height(32.dp))
+                    .height(16.dp))
                 Box(
                     modifier = Modifier
                         .background(isHighlighted.value)
@@ -95,11 +98,24 @@ fun Connect(connectionViewModel: ConnectionViewModel) {
                         color = fontColor.value,
                         modifier = Modifier.align(Alignment.Center)
                     )
-                }
+                } //Ende Kopfelemnt
+
+                Spacer(modifier = Modifier.padding(144.dp))
+
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {
+                    },
+                    label = {
+                        Text(stringResource(R.string.server_name))
+                    }
+                )
+
+                Spacer(modifier = Modifier.padding(32.dp))
 
                 Button(onClick = {
                     coroutineScope.launch {
-                        serverResponse = connectionViewModel.fetchDataFromServer("Fuck World")
+                        serverResponse = connectionViewModel.fetchDataFromServer("Fuck World", "https://${userInput}.de") //Überprüfung zwecks Testdaten notwendig.
                     }
                 }) {
                     Text("Send Request")

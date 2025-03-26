@@ -80,4 +80,15 @@ class ConnectionViewModel(
             else -> "Unknown error"
         }
     }
+
+
+
+
+    suspend fun fetchDataFromServer(input: String, url: String): String {
+        return when (val result = wiFiConnection.sendAndReceive(input, url)) {
+            is Success -> result.data
+            is Error -> "Error: ${result.cause}"
+            else -> "Unknown error"
+        }
+    }
 }
